@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operation Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            padding: 20px;
+        }
+        .button {
+            display: block;
+            width: 200px;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Select an Operation</h1>
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <label for="xesFile">XES 파일 선택:</label>
+    <input type="file" id="xesFile" name="xesFile" accept=".xes">
+    <button type="submit">업로드</button>
+</form>
+<a href="/select" class="button">Select Operation</a>
+<a href="/slice" class="button">Slice Operation</a>
+<a href="/union" class="button">Union Operation</a>
+<a href="checkbox.html" class="button">check box</a>
+<a href="dashborad.html" class="button">dashborad</a>
+</body>
+</html>

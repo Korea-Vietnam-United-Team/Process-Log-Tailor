@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Tables</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 40px;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            color: #666;
+            font-size: 24px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+            font-size: 16px;
+        }
+        th {
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+<h2>Global Trace Attributes</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Key</th>
+        <th>Value</th>
+        <th>Type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="attribute : ${dataModel.globalTraceAttributes}">
+        <td th:text="${attribute.key}"></td>
+        <td th:text="${attribute.value.toString()}"></td>
+        <td th:text="${attribute.getClass().getSimpleName()}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Global Event Attributes</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Key</th>
+        <th>Value</th>
+        <th>Type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="attribute : ${dataModel.globalEventAttributes}">
+        <td th:text="${attribute.key}"></td>
+        <td th:text="${attribute.value.toString()}"></td>
+        <td th:text="${attribute.getClass().getSimpleName()}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Classifiers</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Keys</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="classifier : ${dataModel.classifiers}">
+        <td th:text="${classifier.name()}"></td>
+        <td th:text="${#strings.listJoin(classifier.getDefiningAttributeKeys(), ', ')}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
+
