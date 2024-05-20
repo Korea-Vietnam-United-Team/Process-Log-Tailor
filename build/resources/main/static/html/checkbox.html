@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Table Row Selector</title>
+</head>
+<body>
+<h2>Select Table Rows</h2>
+<form id="rowForm">
+    <table>
+        <thead>
+        <tr>
+            <th>Select</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><input type="checkbox" name="rowSelect" value="1"></td>
+            <td>1</td>
+            <td>John Doe</td>
+            <td>30</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" name="rowSelect" value="2"></td>
+            <td>2</td>
+            <td>Jane Smith</td>
+            <td>25</td>
+        </tr>
+        <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+    <button type="button" onclick="submitRows()">Submit</button>
+</form>
+
+<script>
+    function submitRows() {
+        const selectedRows = Array.from(document.querySelectorAll('input[name="rowSelect"]:checked')).map(cb => cb.value);
+        fetch('/submit-rows', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ selectedRows })
+        })
+        .then(response => response.json())
+        .then(data => alert('Response: ' + data.message))
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+</body>
+</html>

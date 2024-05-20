@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en-KO">
+<head>
+    <!-- ===== Meta ===== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UpLoad File Page</title>
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css"/>
+    <link rel="icon" href="https://cdn-icons-png.freepik.com/256/7392/7392631.png" type="image/png">
+</head>
+<body>
+<div class="wrapper">
+    <nav id="main-area">
+            <form class="form" action="/upload" method="post" enctype="multipart/form-data">
+                <span class="form-title">Upload your file</span>
+                <p class="form-paragraph">File should be an XES</p>
+                <label class="drop-container">
+                    <svg viewBox="0 0 640 512" height="2em">
+                        <path d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"></path>
+                    </svg>
+                    <span class="drop-title">Drop files here</span>
+                    or
+                    <input type="file" id="xesFile" name="xesFile" accept=".xes">
+                    <a href="/select" class="button">Select Operation</a>
+                    <a href="/slice" class="button">Slice Operation</a>
+                    <a href="/union" class="button">Union Operation</a>
+                    <button class="button_upload learn-more" type="submit">
+                        <span class="button_upload circle" aria-hidden="true">
+                            <span class="button_upload icon arrow"></span>
+                        </span>
+                        <span class="button_upload button-text">Upload</span>
+                    </button>
+                </label>
+            </form>
+    </nav>
+</div>
+</body>
+</html>
