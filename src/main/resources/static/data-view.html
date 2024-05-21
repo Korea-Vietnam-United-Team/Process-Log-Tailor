@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Tables</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+    <style>
+        h2 {
+            color: #666;
+            font-size: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        th {
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <header></header>
+        <main>
+            <h2>Global Trace Attributes</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                    <th>Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="attribute : ${globalTraceSelectAttributes}">
+                    <td th:text="${attribute.key}"></td>
+                    <td th:text="${attribute.value}"></td>
+                    <td th:text="${attribute.type}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h2>Global Event Attributes</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                    <th>Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="attribute : ${globalEventSelectAttributes}">
+                    <td th:text="${attribute.key}"></td>
+                    <td th:text="${attribute.value}"></td>
+                    <td th:text="${attribute.type}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h2>Classifiers</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Keys</th>
+                    <th>Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="classifier : ${classifiers}">
+                    <td th:text="${classifier.key}"></td>
+                    <td th:text="${classifier.value}"></td>
+                    <td th:text="${classifier.type}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </main>
+</div>
+</body>
+</html>

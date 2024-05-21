@@ -1,10 +1,10 @@
-// 컨트롤러가 들어 있는 폴더
 package com.project.capstone.controller;
 
 import org.deckfour.xes.model.XLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +24,11 @@ public class XmlController {
         this.globalAttributesAndClassifer = globalAttributesAndClassifer;
     }
 
+    @RequestMapping(value = {"/", "/home"})
+    public String home() {
+        return "home";
+    }
+
     @PostMapping("/upload")
     public String getfileInfo(@RequestParam("xesFile") MultipartFile userinfo, Model model) {
         if (userinfo == null) {
@@ -40,4 +45,6 @@ public class XmlController {
 
         return "data-view";
     }
+
+
 }

@@ -1,10 +1,13 @@
-// 서비스가 포함된 디렉토리
 package com.project.capstone.service;
 
+import org.deckfour.xes.classification.XEventClassifier;
+import org.deckfour.xes.model.XAttribute;
 import org.deckfour.xes.model.XLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.project.capstone.data.CompositeAttribute;
+
+import java.util.List;
 
 @Service
 public class GlobalAttributesAndClassifer {

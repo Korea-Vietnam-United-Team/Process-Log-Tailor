@@ -1,58 +1,57 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.5'
-	id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
 group = 'project'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
-}
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    sourceCompatibility = '17'
 }
 
 repositories {
-	mavenCentral()
-	jcenter() // Add jcenter repository
-	maven { url "https://repo.spring.io/milestone" } // Spring milestone repository
-	maven { url "https://repo.spring.io/snapshot" } // Spring snapshot repository
+    mavenCentral()
+    maven { url "https://repo.spring.io/milestone" }
+    maven { url "https://repo.spring.io/snapshot" }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
-	implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
-	implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.1'
-	implementation 'org.glassfish.jaxb:jaxb-runtime:3.0.1'
-	implementation 'org.apache.taglibs:taglibs-standard-impl:1.2.5'
-	implementation 'org.apache.taglibs:taglibs-standard-spec:1.2.5'
-	implementation fileTree(dir: 'libs', include: ['*.jar'])
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.1'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:3.0.1'
+    implementation 'org.apache.taglibs:taglibs-standard-impl:1.2.5'
+    implementation 'org.apache.taglibs:taglibs-standard-spec:1.2.5'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	// Additional dependencies
-	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:2.0.0' // Corrected version
-	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0' // Corrected version
-	implementation 'javax.xml.bind:jaxb-api:2.3.1'
-	implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+    // Additional dependencies
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:2.0.0'
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
 }
 
 dependencyManagement {
-	imports {
-		mavenBom "org.springframework.boot:spring-boot-dependencies:3.2.5"
-	}
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:3.2.5"
+    }
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
