@@ -7,8 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import com.project.capstone.data.CompositeAttribute;
-import com.project.capstone.service.GlobalAttributesAndClassifer;
 import com.project.capstone.service.XmlConverter;
 
 @Controller

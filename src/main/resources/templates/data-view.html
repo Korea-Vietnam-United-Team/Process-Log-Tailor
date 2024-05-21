@@ -42,10 +42,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="attribute : ${dataModel.globalTraceAttributes}">
+                <tr th:each="attribute : ${globalTraceSelectAttributes}">
                     <td th:text="${attribute.key}"></td>
-                    <td th:text="${attribute.value.toString()}"></td>
-                    <td th:text="${attribute.getClass().getSimpleName()}"></td>
+                    <td th:text="${attribute.value}"></td>
+                    <td th:text="${attribute.type}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -60,10 +60,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="attribute : ${dataModel.globalEventAttributes}">
+                <tr th:each="attribute : ${globalEventSelectAttributes}">
                     <td th:text="${attribute.key}"></td>
-                    <td th:text="${attribute.value.toString()}"></td>
-                    <td th:text="${attribute.getClass().getSimpleName()}"></td>
+                    <td th:text="${attribute.value}"></td>
+                    <td th:text="${attribute.type}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -74,12 +74,14 @@
                 <tr>
                     <th>Name</th>
                     <th>Keys</th>
+                    <th>Type</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="classifier : ${dataModel.classifiers}">
-                    <td th:text="${classifier.name()}"></td>
-                    <td th:text="${#strings.listJoin(classifier.getDefiningAttributeKeys(), ', ')}"></td>
+                <tr th:each="classifier : ${classifiers}">
+                    <td th:text="${classifier.key}"></td>
+                    <td th:text="${classifier.value}"></td>
+                    <td th:text="${classifier.type}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -87,4 +89,3 @@
 </div>
 </body>
 </html>
-
