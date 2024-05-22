@@ -19,7 +19,7 @@ public class XmlConverter {
 
             if (parser.canParse(file)) {
                 List<XLog> logs = parser.parse(file);
-                XLog log = logs.get(0); // Assuming there is at least one log in the file
+                XLog log = logs.get(0);
                 return log;
             } else {
                 System.out.println("The file cannot be parsed as an XES file.");

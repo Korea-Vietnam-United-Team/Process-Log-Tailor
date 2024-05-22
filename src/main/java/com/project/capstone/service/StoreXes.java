@@ -1,6 +1,5 @@
 package com.project.capstone.service;
 
-
 import org.deckfour.xes.model.XAttributeMap;
 import org.deckfour.xes.model.XEvent;
 import org.deckfour.xes.model.XLog;

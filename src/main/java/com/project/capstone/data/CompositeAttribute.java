@@ -10,8 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Scope(value = "prototype")
-@Component@Getter
+@Component
+@Getter
 public class CompositeAttribute {
     private List<XAttribute> globalTraceAttributes;
     private List<XAttribute> globalEventAttributes;
@@ -28,6 +30,19 @@ public class CompositeAttribute {
     public void setClassifiers(List<XEventClassifier> classifiers) {
         this.classifiers = classifiers;
 
+    }
+
+    private String key;
+    private String value;
+    private String type;
+
+    @Override
+    public String toString() {
+        return "CompositeAttribute{" +
+                "key='" + key + '\'' +
+                ", value='" + value + '\'' +
+                ", type='" + type + '\'' +
+                '}';
     }
 
 }

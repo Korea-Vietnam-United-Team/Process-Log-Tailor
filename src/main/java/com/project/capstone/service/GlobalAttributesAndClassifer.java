@@ -19,4 +19,19 @@ public class GlobalAttributesAndClassifer {
         compositeAttribute.setClassifiers(log.getClassifiers());
         return compositeAttribute;
     }
+
+    private String name;
+    private String keys;
+    private String type;
+
+    // Getters và Setters
+
+    @Override
+    public String toString() {
+        return "GlobalAttributesAndClassifer{" +
+                "name='" + name + '\'' +
+                ", keys='" + keys + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }
