@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProcessLogTailor</title>
+    <style>
+        body {
+            background-color: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        @media (max-width: 991px) {
+            body {
+                flex-direction: column;
+            }
+        }
+
+        .header {
+            background-color: #000;
+            color: #fff;
+            font: 600 50px/150% Inter, sans-serif;
+            text-align: center;
+        }
+
+        @media (max-width: 991px) {
+            .header {
+                font-size: 40px;
+                padding: 30px 20px;
+            }
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+            margin: 90px auto;
+            max-width: 1227px;
+            width: 100%;
+        }
+
+        @media (max-width: 991px) {
+            .main-content {
+                flex-direction: column;
+                margin: 40px auto;
+            }
+        }
+
+        .text-section,
+        .image-section {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        @media (max-width: 991px) {
+            .text-section,
+            .image-section {
+                width: 100%;
+            }
+        }
+
+        .intro-text {
+            padding: 0 20px;
+        }
+
+        .intro-text h2 {
+            font: 600 40px/110% Inter, sans-serif;
+        }
+
+        .intro-text p {
+            margin-top: 24px;
+            font: 400 24px/36px Inter, sans-serif;
+        }
+
+        .button-get-started {
+            margin-top: 24px;
+            padding: 14px 24px;
+            background-color: #000;
+            width: 170px;
+            color: #f7f7f7;
+            border-radius: 30px;
+            box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+            font: 500 20px/150% Inter, sans-serif;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .faq-section {
+            margin-top: 59px;
+            padding: 20px;
+            color: #828282;
+            font: 400 24px/150% Inter, sans-serif;
+        }
+
+        .faq-section h3 {
+            font: 600 40px/110% Inter, sans-serif;
+        }
+
+        .faq-section ul {
+            margin-top: 24px;
+        }
+
+        .faq-section li {
+            margin-top: 24px;
+            font-family: Inter, sans-serif;
+        }
+
+        .image-container img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .footer {
+            background-color: #000;
+            margin-top: 30px;
+            color: #fff;
+            font: 600 50px/150% Inter, sans-serif;
+            text-align: center;
+        }
+
+        @media (max-width: 991px) {
+            .footer {
+                font-size: 40px;
+                padding: 30px 20px;
+            }
+        }
+
+        .post-section {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px;
+        }
+
+        @media (max-width: 991px) {
+            .post-section {
+                flex-direction: column;
+            }
+        }
+
+        .post {
+            background-color: #dc5b5b;
+            border-radius: 20px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+            margin: 10px;
+        }
+
+        .post img {
+            border-radius: 50%;
+            width: 48px;
+        }
+
+        .post-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-details h4 {
+            font: 600 16px/150% Inter, sans-serif;
+        }
+
+        .post-details p {
+            margin: 16px 0 0;
+            font: 400 20px/30px Inter, sans-serif;
+        }
+
+        .likes {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .likes img {
+            width: 24px;
+        }
+    </style>
+    <style>
+        .text-column {
+            display: flex;
+            flex-direction: column;
+            line-height: normal;
+            width: 34%;
+            margin-left: 0;
+        }
+        @media (max-width: 991px) {
+            .text-column {
+                width: 100%;
+            }
+        }
+        .event-info {
+            display: flex;
+            flex-direction: column;
+            color: #000;
+            border: 1px solid white;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        @media (max-width: 991px) {
+            .event-info {
+                max-width: 100%;
+                margin-top: 40px;
+            }
+        }
+        .event-title {
+            letter-spacing: -1.28px;
+            font: 700 40px Inter, sans-serif;
+        }
+        @media (max-width: 991px) {
+            .event-title {
+                max-width: 100%;
+                font-size: 40px;
+            }
+        }
+        .event-time {
+            color: #828282;
+            margin-top: 5px;
+            font: 400 16px/150% Inter, sans-serif;
+        }
+        @media (max-width: 991px) {
+            .event-time {
+                max-width: 100%;
+            }
+        }
+        .event-description {
+            margin-top: 24px;
+            font: 500 20px/30px Inter, sans-serif;
+            text-align: justify;
+        }
+        @media (max-width: 991px) {
+            .event-description {
+                max-width: 100%;
+            }
+        }
+        .image-column {
+            display: flex;
+            flex-direction: column;
+            line-height: normal;
+            width: 66%;
+            margin-left: 20px;
+        }
+        @media (max-width: 991px) {
+            .image-column {
+                width: 100%;
+            }
+        }
+        .responsive-image {
+            aspect-ratio: 1.79;
+            object-fit: auto;
+            object-position: center;
+            width: 100%;
+            align-self: stretch;
+            margin: auto 0;
+        }
+        @media (max-width: 991px) {
+            .responsive-image {
+                max-width: 100%;
+                margin-top: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="header">ProcessLogTailor</header>
+<main class="main-content">
+    <section class="text-section">
+        <div class="intro-text">
+            <h2>Welcome</h2>
+            <p>프로젝트에 대한 기본적인 소개</p>
+            <div class="button-get-started" tabindex="0">Get started</div>
+        </div>
+        <section class="faq-section">
+            <h3>FAQ</h3>
+            <ul>
+                <li>프로젝트 질문1</li>
+                <li>프로젝트 질문2</li>
+                <li>프로젝트 질문3</li>
+            </ul>
+        </section>
+    </section>
+    <section class="image-section">
+        <div class="image-container">
+            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/3b802fb57e34f706798e63feb54ef9b9d9688cca2589f144a1b416d96b2150b9?apiKey=ce41a83eb0104d819bb8bc791b2e696f&"
+                 alt="Description of image" loading="lazy"/>
+        </div>
+    </section>
+</main>
+<div class="intro-text">
+    <h2>핫 이벤트</h2>
+    <hr>
+</div>
+<section class="post-section">
+    <article class="post">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/9af80091b699fef2838df1374816e8cf9604bac44f7480ade7215e667292f951?apiKey=ce41a83eb0104d819bb8bc791b2e696f&"
+             alt="Charles profile image" loading="lazy"/>
+        <div class="post-details">
+            <h4>Charles</h4>
+            <p>Body text for a post. Since it’s a social app, sometimes it’s a hot take, and sometimes it’s a
+                question.</p>
+            <div class="likes">
+                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/bdd49d52e9928ecd03b25d6c4e7742e64ca0c97b7c32467c26643edfb1a91c7a?apiKey=ce41a83eb0104d819bb8bc791b2e696f&"
+                     alt="Like icon" loading="lazy"/>
+                <span>6 likes</span>
+            </div>
+        </div>
+    </article>
+    <article class="post" style="background-color: #4df623;">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/9af80091b699fef2838df1374816e8cf9604bac44f7480ade7215e667292f951?apiKey=ce41a83eb0104d819bb8bc791b2e696f&"
+             alt="Charles profile image" loading="lazy"/>
+        <div class="post-details">
+            <h4>Charles</h4>
+            <p>Body text for a post. Since it&rsquo;s a social app, sometimes it&rsquo;s a hot take, and sometimes
+                it&rsquo;s a question.</p>
+            <div class="likes">
+                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/bdd49d52e9928ecd03b25d6c4e7742e64ca0c97b7c32467c26643edfb1a91c7a?apiKey=ce41a83eb0104d819bb8bc791b2e696f&"
+                     alt="Like icon" loading="lazy"/>
+                <span>6 likes</span>
+            </div>
+        </div>
+    </article>
+    <article class="post" style="background-color: #2abfee;">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/9af80091b699fef2838df1374816e8cf9604bac44f7480ade7215e667292f951?apiKey=ce41a83eb0104d819bb8bc791b2e696f&"
+             alt="Charles profile image" loading="lazy"/>
+        <div class="post-details">
+            <h4>Charles</h4>
+            <p>Body text for a post. Since it&rsquo;s a social app, sometimes it&rsquo;s a hot take, and sometimes
+                it&rsquo;s a question.</p>
+            <div class="likes">
+                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/bdd49d52e9928ecd03b25d6c4e7742e64ca0c97b7c32467c26643edfb1a91c7a?apiKey=ce41a83eb0104d819bb8bc791b2e696f&"
+                     alt="Like icon" loading="lazy"/>
+                <span>6 likes</span>
+            </div>
+        </div>
+    </article>
+</section>
+<div class="intro-text">
+    <h2>영상</h2>
+    <hr>
+</div>
+<section class="post-section" style="margin-top: 30px">
+            <article class="text-column">
+                <div class="event-info">
+                    <h1 class="event-title">영상 이벤트 제목</h1>
+                    <time class="event-time" datetime="2024-05-20T17:20">
+                        시간: 2024년 05월 20일 05:20 PM
+                    </time>
+                    <p class="event-description">
+                        Body text for your whole article or post. We’ll put in some lorem
+                        ipsum to show how a filled-out page might look: <br /><br />
+                        Excepteur efficient emerging, minim veniam anim aute carefully curated
+                        Ginza conversation exquisite perfect nostrud nisi intricate Content.
+                        Qui international first-class nulla ut. Punctual adipisicing,
+                        essential lovely queen tempor eiusmod irure. Exclusive izakaya
+                        charming Scandinavian impeccable aute quality of life soft power
+                        pariatur Melbourne occaecat discerning. Qui wardrobe aliquip, et
+                        Porter destination Toto remarkable officia Helsinki excepteur Basset
+                        hound. Zürich sleepy perfect consectetur.
+                    </p>
+                </div>
+            </article>
+            <div class="image-column">
+                <img
+                        loading="lazy"
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/65202c884ca69463c603e3fb9ba83a7ff2ace1612812685a38a1272007c23b5c?apiKey=ce41a83eb0104d819bb8bc791b2e696f&"
+                        class="responsive-image"
+                        alt="A descriptive text about the image content"/>
+            </div>
+</section>
+<footer class="footer">ProcessLogTailor</footer>
+</body>
+</html>
