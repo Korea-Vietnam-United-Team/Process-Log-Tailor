@@ -122,15 +122,26 @@
             flex-direction: column;
         }
 
-        header .image-text .name {
+        header .image-text {
             font-size: 21px;
             font-weight: 600;
-            color: #18191a;
+            color: var(--text-color);
         }
 
         header .image-text .profession {
             font-size: 16px;
             display: block;
+        }
+
+        .header-name {
+            color: black;
+            font-size: 21px;
+            font-weight: 700;
+            transition: var(--tran-03);
+        }
+
+        body.dark .header-name {
+            color: var(--text-color);
         }
 
         .sidebar header .image {
@@ -338,7 +349,7 @@
                 <img src="https://uploaded.kcampus.kr/unnamed_1_099270416e.jpg" alt="">
             </span>
             <div class="text logo-text">
-                <span class="name">ProcessLogTailor</span>
+                <span class="header-name">ProcessLogTailor</span>
                 <span class="profession">한베트남연합팀</span>
             </div>
         </div>
