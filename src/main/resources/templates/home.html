@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
+    <title>ProcessLogTailor</title>
     <link rel="icon" href="https://cdn-icons-png.freepik.com/256/7392/7392631.png" type="image/png">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         /* ===== home.html css ===== */
         * {
@@ -19,12 +20,10 @@
             /* ===== Colors ===== */
             --body-color: #e4e9f7;
             --sidebar-color: #fff;
-            --primary-color: rgb(86, 163, 142);
+            --primary-color: rgb(0, 177, 255);
             --primary-color-light: #e3e5e6;
             --toggle-color: #ddd;
             --text-color: #707070;
-
-            /* ====== Transition ====== */
             --tran-02: all 0.2s ease;
             --tran-03: all 0.3s ease;
             --tran-04: all 0.3s ease;
@@ -51,7 +50,7 @@
             --text-color: #ccc;
         }
 
-        /* ===== Sidebar ===== */
+        /* ===== Sidebar css ===== */
         .sidebar {
             position: fixed;
             top: 0;
@@ -68,7 +67,6 @@
             width: 88px;
         }
 
-        /* ===== Reusable code - Here ===== */
         .sidebar li {
             height: 50px;
             list-style: none;
@@ -110,8 +108,6 @@
             opacity: 0;
         }
 
-        /* =========================== */
-
         .sidebar header {
             position: relative;
         }
@@ -127,13 +123,13 @@
         }
 
         header .image-text .name {
-            font-size: 18px;
+            font-size: 21px;
             font-weight: 600;
+            color: #18191a;
         }
 
         header .image-text .profession {
             font-size: 16px;
-            margin-top: -2px;
             display: block;
         }
 
@@ -192,7 +188,7 @@
             border: none;
             background-color: var(--primary-color-light);
             color: var(--text-color);
-            border-radius: 6px;
+            border-radius: 30px;
             font-size: 17px;
             font-weight: 500;
             transition: var(--tran-05);
@@ -213,6 +209,7 @@
 
         .sidebar li a:hover {
             background-color: var(--primary-color);
+            border-radius: 30px;
         }
 
         .sidebar li a:hover .icon,
@@ -303,7 +300,7 @@
             left: 20px;
         }
 
-        /* ===== home CSS =====  */
+        /* ===== sidebar Home css  =====  */
         .home {
             position: absolute;
             top: 0;
@@ -334,6 +331,7 @@
 </head>
 <body>
 <nav class="sidebar close">
+    <!-- ===== Header Siadebar ===== -->
     <header>
         <div class="image-text" style="margin-top: 30px">
             <span class="image">
@@ -346,6 +344,7 @@
         </div>
         <i class='bx bx-chevron-right toggle'></i>
     </header>
+    <!-- ===== Main Sidebar: Menu ===== -->
     <div class="menu-bar">
         <div class="menu">
             <li class="search-box">
@@ -373,7 +372,8 @@
                 </li>
             </ul>
         </div>
-        <div class="bottom-content">
+        <!-- ===== Footer Sidebar ===== -->
+        <footer class="bottom-content">
             <li class="mode" style="margin-bottom: 30px">
                 <div class="sun-moon">
                     <i class='bx bx-moon icon moon'></i>
@@ -384,11 +384,23 @@
                     <span class="switch"></span>
                 </div>
             </li>
-        </div>
+        </footer>
     </div>
 </nav>
 <section id="content-section" class="home"></section>
 <script>
+    // ===== Load Content into Section => jquery =====/
+    $(document).ready(function(){
+        $.ajax({
+            url: "index.html",
+            success: function(result){
+                $("#content-section").html(result);
+            }
+        });
+    });
+</script>
+<script>
+    // ===== DOM ===== //
     const body = document.querySelector('body'),
         sidebar = body.querySelector('nav'),
         toggle = body.querySelector(".toggle"),
