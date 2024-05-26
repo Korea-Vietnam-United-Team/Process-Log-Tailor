@@ -1,13 +1,387 @@
 <!DOCTYPE html>
-<html lang="en-KO">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" type="text/css" href="../wrapper.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Members</title>
     <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #fff;
+        }
 
+        .member-list-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f7f7f7;
+            padding: 1px 0;
+            width: 100%;
+        }
+
+        @media (max-width: 991px) {
+            .member-list-section {
+                max-width: 100%;
+            }
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            color: #fff;
+            letter-spacing: -0.5px;
+            padding: 19px 60px;
+            font: 600 50px/150% Inter, sans-serif;
+            align-self: stretch;
+            width: 100%;
+        }
+
+        @media (max-width: 991px) {
+            .header {
+                font-size: 40px;
+                padding: 0 20px;
+            }
+        }
+
+        .team-container {
+            margin-top: 16px;
+            padding: 0 20px;
+            max-width: 1362px;
+            width: 100%;
+        }
+
+        @media (max-width: 991px) {
+            .team-container {
+                max-width: 100%;
+            }
+        }
+
+        .team-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        @media (max-width: 991px) {
+            .team-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+            }
+        }
+
+        .member-card {
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 16px 0 16px 16px;
+            width: 33%;
+        }
+
+        @media (max-width: 991px) {
+            .member-card {
+                width: 100%;
+                margin-top: 15px;
+            }
+        }
+
+        .member-connect {
+            display: flex;
+            gap: 20px;
+        }
+
+        @media (max-width: 991px) {
+            .member-connect {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+            }
+        }
+
+        .image-column {
+            width: 24%;
+        }
+
+        @media (max-width: 991px) {
+            .image-column {
+                width: 100%;
+            }
+        }
+
+        .info-column {
+            display: flex;
+            flex-direction: column;
+            width: 76%;
+            margin-left: 20px;
+        }
+
+        @media (max-width: 991px) {
+            .info-column {
+                width: 100%;
+            }
+        }
+
+        .profile-pic {
+            width: 100px;
+            aspect-ratio: 0.77;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        @media (max-width: 991px) {
+            .profile-pic {
+                margin-top: 32px;
+            }
+        }
+
+        .member-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 3px 0;
+        }
+
+        .member-name {
+            font-family: Inter, sans-serif;
+            color: #000;
+            font-weight: 500;
+            line-height: 150%;
+            font-size: 16px;
+        }
+
+        .member-designation {
+            font-family: Inter, sans-serif;
+            color: #828282;
+            font-weight: 400;
+            line-height: 150%;
+            font-size: 16px;
+        }
+
+        .interests-title {
+            font-family: Inter, sans-serif;
+            color: #828282;
+            margin-top: 16px;
+            line-height: 150%;
+        }
+
+        .interests-tags {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+            padding-right: 12px;
+        }
+
+        .interest-tag {
+            background-color: #f7f7f7;
+            border-radius: 5px;
+            width: 63px;
+            height: 20px;
+        }
     </style>
 </head>
+
 <body>
+<div class="container">
+    <section class="member-list-section">
+        <header class="header">Team member</header>
+        <div class="team-container">
+            <div class="team-row">
+                <article class="member-card">
+                    <div class="member-connect">
+                        <div class="image-column">
+                            <img class="profile-pic" src="https://cdn.builder.io/api/v1/image/assets/TEMP/f9c183de96c42d81e53a6d2982062537bdc27382cb14801669f62acd0792caf4?apiKey=ce41a83eb0104d819bb8bc791b2e696f&" alt="Charles's profile picture">
+                        </div>
+                        <div class="info-column">
+                            <div class="member-details">
+                                <strong class="member-name">Charles</strong>
+                                <span class="member-designation">경기대학교 컴퓨터공학전공 학사</span>
+                                <span class="interests-title">관심분야:</span>
+                                <div class="interests-tags">
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="member-card">
+                    <div class="member-connect">
+                        <div class="image-column">
+                            <img class="profile-pic" src="https://cdn.builder.io/api/v1/image/assets/TEMP/f9c183de96c42d81e53a6d2982062537bdc27382cb14801669f62acd0792caf4?apiKey=ce41a83eb0104d819bb8bc791b2e696f&" alt="Charles's profile picture">
+                        </div>
+                        <div class="info-column">
+                            <div class="member-details">
+                                <strong class="member-name">Charles</strong>
+                                <span class="member-designation">경기대학교 컴퓨터공학전공 교수</span>
+                                <span class="interests-title">관심분야:</span>
+                                <div class="interests-tags">
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="member-card">
+                    <div class="member-connect">
+                        <div class="image-column">
+                            <img class="profile-pic" src="https://cdn.builder.io/api/v1/image/assets/TEMP/f9c183de96c42d81e53a6d2982062537bdc27382cb14801669f62acd0792caf4?apiKey=ce41a83eb0104d819bb8bc791b2e696f&" alt="Charles's profile picture">
+                        </div>
+                        <div class="info-column">
+                            <div class="member-details">
+                                <strong class="member-name">Charles</strong>
+                                <span class="member-designation">경기대학교 컴퓨터공학전공 학사</span>
+                                <span class="interests-title">관심분야:</span>
+                                <div class="interests-tags">
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="team-container">
+            <div class="team-row">
+                <article class="member-card">
+                    <div class="member-connect">
+                        <div class="image-column">
+                            <img class="profile-pic" src="https://cdn.builder.io/api/v1/image/assets/TEMP/f9c183de96c42d81e53a6d2982062537bdc27382cb14801669f62acd0792caf4?apiKey=ce41a83eb0104d819bb8bc791b2e696f&" alt="Charles's profile picture">
+                        </div>
+                        <div class="info-column">
+                            <div class="member-details">
+                                <strong class="member-name">Charles</strong>
+                                <span class="member-designation">경기대학교 컴퓨터공학전공 학사</span>
+                                <span class="interests-title">관심분야:</span>
+                                <div class="interests-tags">
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="member-card">
+                    <div class="member-connect">
+                        <div class="image-column">
+                            <img class="profile-pic" src="https://cdn.builder.io/api/v1/image/assets/TEMP/f9c183de96c42d81e53a6d2982062537bdc27382cb14801669f62acd0792caf4?apiKey=ce41a83eb0104d819bb8bc791b2e696f&" alt="Charles's profile picture">
+                        </div>
+                        <div class="info-column">
+                            <div class="member-details">
+                                <strong class="member-name">Charles</strong>
+                                <span class="member-designation">경기대학교 컴퓨터공학전공 학사</span>
+                                <span class="interests-title">관심분야:</span>
+                                <div class="interests-tags">
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="member-card">
+                    <div class="member-connect">
+                        <div class="image-column">
+                            <img class="profile-pic" src="https://cdn.builder.io/api/v1/image/assets/TEMP/f9c183de96c42d81e53a6d2982062537bdc27382cb14801669f62acd0792caf4?apiKey=ce41a83eb0104d819bb8bc791b2e696f&" alt="Charles's profile picture">
+                        </div>
+                        <div class="info-column">
+                            <div class="member-details">
+                                <strong class="member-name">Charles</strong>
+                                <span class="member-designation">경기대학교 컴퓨터공학전공 학사</span>
+                                <span class="interests-title">관심분야:</span>
+                                <div class="interests-tags">
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="team-container">
+            <div class="team-row">
+                <article class="member-card">
+                    <div class="member-connect">
+                        <div class="image-column">
+                            <img class="profile-pic" src="https://cdn.builder.io/api/v1/image/assets/TEMP/f9c183de96c42d81e53a6d2982062537bdc27382cb14801669f62acd0792caf4?apiKey=ce41a83eb0104d819bb8bc791b2e696f&" alt="Charles's profile picture">
+                        </div>
+                        <div class="info-column">
+                            <div class="member-details">
+                                <strong class="member-name">Charles</strong>
+                                <span class="member-designation">경기대학교 컴퓨터공학전공 학사</span>
+                                <span class="interests-title">관심분야:</span>
+                                <div class="interests-tags">
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="member-card">
+                    <div class="member-connect">
+                        <div class="image-column">
+                            <img class="profile-pic" src="https://cdn.builder.io/api/v1/image/assets/TEMP/f9c183de96c42d81e53a6d2982062537bdc27382cb14801669f62acd0792caf4?apiKey=ce41a83eb0104d819bb8bc791b2e696f&" alt="Charles's profile picture">
+                        </div>
+                        <div class="info-column">
+                            <div class="member-details">
+                                <strong class="member-name">Charles</strong>
+                                <span class="member-designation">경기대학교 컴퓨터공학전공 학사</span>
+                                <span class="interests-title">관심분야:</span>
+                                <div class="interests-tags">
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="member-card">
+                    <div class="member-connect">
+                        <div class="image-column">
+                            <img class="profile-pic" src="https://cdn.builder.io/api/v1/image/assets/TEMP/f9c183de96c42d81e53a6d2982062537bdc27382cb14801669f62acd0792caf4?apiKey=ce41a83eb0104d819bb8bc791b2e696f&" alt="Charles's profile picture">
+                        </div>
+                        <div class="info-column">
+                            <div class="member-details">
+                                <strong class="member-name">Charles</strong>
+                                <span class="member-designation">경기대학교 컴퓨터공학전공 학사</span>
+                                <span class="interests-title">관심분야:</span>
+                                <div class="interests-tags">
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+    <footer class="header">ProcessLogTailor</footer>
+</div>
 </body>
 </html>
