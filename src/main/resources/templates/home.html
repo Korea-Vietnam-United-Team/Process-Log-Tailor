@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- ===== Meta ===== -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="보꾸옥안">
+    <!-- ===== Name Project ===== -->
     <title>ProcessLogTailor</title>
-    <link rel="icon" href="https://cdn-icons-png.freepik.com/256/7392/7392631.png" type="image/png">
-    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <!-- ===== Icon Logo Image ===== -->
+    <link rel="icon" href="https://cdn-icons-png.freepik.com/128/7392/7392631.png" type="image/png">
+    <!-- ===== Js ===== -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- ===== Css - Box icon css ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <style>
         /* ===== home.html css ===== */
         * {
@@ -160,7 +166,7 @@
             right: -38px;
             transform: translateY(-50%) scaleX(-1);
             height: 40px;
-            width: 25px;
+            width: 30px;
             background-color: #ffffff;
             color: #18191a;
             border-radius: 10% 10% 10% 10%;
@@ -211,7 +217,6 @@
             background-color: transparent;
             display: flex;
             align-items: center;
-            height: 100%;
             width: 100%;
             border-radius: 6px;
             text-decoration: none;
@@ -234,7 +239,7 @@
         }
 
         .sidebar .menu-bar {
-            height: calc(100% - 55px);
+            height: calc(100% - 80px);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -372,7 +377,7 @@
                 <li class="nav-link">
                     <a href="#" data-url="/upload.html">
                         <i class='bx bx-upload icon'></i>
-                        <span class="text nav-text">Upload</span>
+                        <span class="text nav-text">Upload File</span>
                     </a>
                 </li>
                 <li class="nav-link">
@@ -455,7 +460,7 @@
             fetchContent(url);
         });
     });
-
+    // ===== Error fetching content ===== //
     function fetchContent(url) {
         fetch(url)
             .then(response => response.text())

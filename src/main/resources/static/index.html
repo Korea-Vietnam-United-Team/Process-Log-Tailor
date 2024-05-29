@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,19 +17,18 @@
             }
         }
 
-        .header {
+        .header, .footer {
             color: white;
             background-color: black;
             font: 600 50px/150% Inter, sans-serif;
             text-align: center;
-            padding: 0 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
             border: 2px solid var(--body-background-color);
         }
 
         @media (max-width: 991px) {
-            .header {
+            .header, .footer {
                 font-size: 40px;
                 padding: 30px 20px;
             }
@@ -55,7 +55,6 @@
         }
 
         .image-section {
-            display: flex;
             flex: 1;
             margin: 0 10px;
             align-items: center;
@@ -63,8 +62,7 @@
         }
 
         @media (max-width: 991px) {
-            .text-section,
-            .image-section {
+            .text-section, .image-section {
                 width: 100%;
             }
         }
@@ -76,11 +74,33 @@
         .intro-text h2 {
             font: 600 40px/110% Inter, sans-serif;
             padding: 0 30px;
+            color: #18191a;
         }
 
         .intro-text p {
             margin-top: 24px;
             font: 400 24px/36px Inter, sans-serif;
+            color: #18191a;
+        }
+
+        body.dark .intro-text h2 {
+            color: var(--text-color);
+        }
+
+        body.dark .intro-text p {
+            color: var(--text-color);
+        }
+
+        body.dark .faq-section li .answer {
+            color: var(--text-color);
+        }
+
+        body.dark .faq-section h3 {
+            color: var(--text-color);
+        }
+
+        body.dark .faq-section li {
+            color: var(--text-color);
         }
 
         .button-get-started {
@@ -90,7 +110,7 @@
             width: 170px;
             color: #f7f7f7;
             border-radius: 30px;
-            box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
             font: 500 20px/150% Inter, sans-serif;
             text-align: center;
             cursor: pointer;
@@ -144,25 +164,17 @@
             width: 100%;
             max-width: 100%;
             height: 700px;
-            border-radius: 8px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .footer {
-            color: white;
-            background-color: black;
-            font: 600 50px/150% Inter, sans-serif;
-            text-align: center;
-            padding: 0 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            border: 2px solid var(--body-background-color);
+        .carousel-image {
+            display: none;
         }
 
-        @media (max-width: 991px) {
-            .footer {
-                font-size: 40px;
-                padding: 30px 20px;
-            }
+        .carousel-image.active {
+            display: block;
         }
 
         .post-section {
@@ -180,12 +192,13 @@
         .post {
             background-color: #dc5b5b;
             border-radius: 20px;
-            padding: 16px;
+            padding: 20px;
             display: flex;
             align-items: center;
             gap: 16px;
             flex: 1;
             margin: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
         }
 
         .post img {
@@ -212,6 +225,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            padding-top: 20px;
         }
 
         .likes img {
@@ -219,8 +233,7 @@
             height: 24px;
             border-radius: 0;
         }
-    </style>
-    <style>
+
         .text-column {
             display: flex;
             flex-direction: column;
@@ -244,6 +257,7 @@
             border-radius: 10px;
             padding: 20px;
             margin: 0 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
         }
 
         @media (max-width: 991px) {
@@ -293,7 +307,7 @@
             cursor: pointer;
         }
 
-        .image-column {
+        .video-column {
             display: flex;
             flex-direction: column;
             line-height: normal;
@@ -301,7 +315,7 @@
         }
 
         @media (max-width: 991px) {
-            .image-column {
+            .video-column {
                 width: 100%;
             }
         }
@@ -312,6 +326,7 @@
             width: 100%;
             align-self: stretch;
             margin: auto 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
         }
 
         @media (max-width: 991px) {
@@ -328,33 +343,16 @@
     <section class="text-section">
         <div class="intro-text">
             <h2 style="padding-left: 0">Welcome</h2>
-            <p>프로젝트에 대한 기본적인 소개</p>
-            <button class="button-get-started" id="upload">Get started</button>
+            <p>This project primarily focuses on event logging and data visualization, designed to allow users to easily
+                upload and view data. It aims to provide an intuitive and efficient way for users to manage and analyze
+                their event logs.</p>
+            <button class="button-get-started" id="Upload">Get started</button>
         </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            // Event for the Get Started button
-            document.getElementById('upload').addEventListener('click', function () {
-                fetchContent('upload.html');
-            });
-
-            function fetchContent(url) {
-                fetch(url)
-                    .then(response => response.text())
-                    .then(data => {
-                        document.getElementById('content-section').innerHTML = data;
-                    })
-                    .catch(error => {
-                        console.error('Error fetching content:', error);
-                        document.getElementById('content-section').innerHTML = '<p>Error loading content. Please try again later.</p>';
-                    });
-            }
-        </script>
         <section class="faq-section">
             <h3>FAQ</h3>
             <ul>
                 <li>
-                    What is ProcessLogEvent and how does it function?
+                    What is ProcessLogTailor and how does it function?
                     <div class="answer">ProcessLogEvent is a mechanism used to log events that occur within a process.
                         It functions by capturing specific events and recording relevant details such as the event type,
                         timestamp, and associated data. This helps in tracking the execution flow and diagnosing issues
@@ -362,16 +360,16 @@
                     </div>
                 </li>
                 <li>
-                    How can I enable or configure ProcessLogEvent in my application?
-                    <div class="answer">To enable or configure ProcessLogEvent, you need to integrate the logging
+                    How can I enable or configure ProcessTailor in my application?
+                    <div class="answer">To enable or configure ProcessLogTailor, you need to integrate the logging
                         library or framework that supports this feature into your application. You can then specify
                         which events to log and the level of detail required. Configuration settings can typically be
-                        adjusted in your application's configuration file or through code
+                        adjusted in your application's configuration file or through code.
                     </div>
                 </li>
                 <li>
-                    What are the common use cases for ProcessLogEvent?
-                    <div class="answer">Common use cases for ProcessLogEvent include monitoring application performance,
+                    What are the common use cases for ProcessLogTailor?
+                    <div class="answer">Common use cases for ProcessLogTailor include monitoring application performance,
                         debugging issues, auditing user actions, and ensuring compliance with security policies. By
                         logging key events, developers and administrators can gain insights into the application's
                         behavior and quickly identify and resolve problems.
@@ -379,19 +377,17 @@
                 </li>
             </ul>
         </section>
-        <script>
-            $(document).ready(function () {
-                $('.faq-section li').click(function () {
-                    $(this).toggleClass('open');
-                    $(this).find('.answer').slideToggle();
-                });
-            });
-        </script>
     </section>
     <section class="image-section">
         <div class="image-container">
-            <img src="https://files.oaiusercontent.com/file-jmVOkKO54NI1xTjUsPxxvaer?se=2024-05-26T03%3A12%3A24Z&sp=r&sv=2023-11-03&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3Df0cf3df0-0a53-473b-b2d8-e76d5c6b2a42.webp&sig=5EEi06UDie4x4%2BM9N/LHfC2i8nqVxqD953bP5ZnKg1k%3D"
-                 alt="Description of image" loading="lazy"/>
+            <img src="https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/436109380_2505493749840390_8352331538006139219_n.jpg?stp=cp6_dst-jpg&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=5Mc_o16yUqgQ7kNvgFMY8Hh&_nc_ht=scontent-ssn1-1.xx&cb_e2o_trans=t&oh=00_AYDfmdmSmq1GhHieHTrZ_j1dtuMj5dSJj4xu8XJjl731aA&oe=665CC55D"
+                 alt="Description of image 1" loading="lazy" class="carousel-image active"/>
+            <img src="https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/436109380_2505493749840390_8352331538006139219_n.jpg?stp=cp6_dst-jpg&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=5Mc_o16yUqgQ7kNvgFMY8Hh&_nc_ht=scontent-ssn1-1.xx&cb_e2o_trans=t&oh=00_AYDfmdmSmq1GhHieHTrZ_j1dtuMj5dSJj4xu8XJjl731aA&oe=665CC55D"
+                 alt="Description of image 2" loading="lazy" class="carousel-image "/>
+            <img src="https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/436109380_2505493749840390_8352331538006139219_n.jpg?stp=cp6_dst-jpg&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=5Mc_o16yUqgQ7kNvgFMY8Hh&_nc_ht=scontent-ssn1-1.xx&cb_e2o_trans=t&oh=00_AYDfmdmSmq1GhHieHTrZ_j1dtuMj5dSJj4xu8XJjl731aA&oe=665CC55D"
+                 alt="Description of image 3" loading="lazy" class="carousel-image"/>
+            <img src="https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/436109380_2505493749840390_8352331538006139219_n.jpg?stp=cp6_dst-jpg&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=5Mc_o16yUqgQ7kNvgFMY8Hh&_nc_ht=scontent-ssn1-1.xx&cb_e2o_trans=t&oh=00_AYDfmdmSmq1GhHieHTrZ_j1dtuMj5dSJj4xu8XJjl731aA&oe=665CC55D" alt="Description of image 4" loading="lazy" class="carousel-image"/>
+            <img src="https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/436109380_2505493749840390_8352331538006139219_n.jpg?stp=cp6_dst-jpg&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=5Mc_o16yUqgQ7kNvgFMY8Hh&_nc_ht=scontent-ssn1-1.xx&cb_e2o_trans=t&oh=00_AYDfmdmSmq1GhHieHTrZ_j1dtuMj5dSJj4xu8XJjl731aA&oe=665CC55D" alt="Description of image 5" loading="lazy" class="carousel-image"/>
         </div>
     </section>
 </main>
@@ -401,14 +397,13 @@
 </div>
 <section class="post-section">
     <article class="post">
-        <img src="data:image/jpeg;base64,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"
+        <img src="https://www.classicpopmag.com/wp-content/uploads/2024/05/Eurovision-Song-Contest-2024.png"
              alt="Charles profile image" loading="lazy"/>
         <div class="post-details">
             <h4>Eurovision Song Contest 2024</h4>
             <p>The Eurovision Song Contest will be held in Malmö, Sweden. The event includes the First Semi-Final on May
                 7, the Second Semi-Final on May 9, and the Grand Final on May 11. This year's theme is "United By
                 Music," featuring dazzling stage setups and performances by contestants from 37 countries.</p>
-            <br>
             <div class="likes">
                 <img src="https://cdn-icons-png.freepik.com/256/8647/8647296.png?ga=GA1.1.648560867.1713175690&semt=ais_hybrid"
                      alt="Like icon" class="like-icon" loading="lazy"/>
@@ -440,7 +435,6 @@
             <p>Taking place from May 27 to June 2 on Granville Island, this festival is North America's longest-running
                 performing arts festival for young audiences. It features music, theatre, dance, puppetry, acrobatics,
                 storytelling, and creative arts activities, making it a must-attend for families. </p>
-            <br>
             <div class="likes">
                 <img src="https://cdn-icons-png.freepik.com/256/8647/8647296.png?ga=GA1.1.648560867.1713175690&semt=ais_hybrid"
                      alt="Like icon" class="like-icon" loading="lazy"/>
@@ -448,30 +442,7 @@
             </div>
         </div>
     </article>
-    <script>
-        $(document).ready(function () {
-            $('.faq-section li').click(function () {
-                $(this).toggleClass('open');
-                $(this).find('.answer').slideToggle();
-            });
 
-            $('.like-icon').click(function () {
-                var likeCountElement = $(this).siblings('.like-count');
-                var likeCount = parseInt(likeCountElement.text());
-                var isLiked = $(this).data('liked');
-                if (isLiked) {
-                    likeCount -= 1;
-                    $(this).attr('src', 'https://cdn-icons-png.freepik.com/256/8647/8647296.png?ga=GA1.1.648560867.1713175690&semt=ais_hybrid');
-                    $(this).data('liked', false);
-                } else {
-                    likeCount += 1;
-                    $(this).attr('src', 'https://cdn-icons-png.freepik.com/128/2839/2839214.png');
-                    $(this).data('liked', true);
-                }
-                likeCountElement.text(likeCount + ' likes');
-            });
-        });
-    </script>
 </section>
 <br>
 <div class="intro-text">
@@ -512,14 +483,13 @@
                     collaboration within development teams.
                 </li>
             </ul>
-            </p>
         </div>
     </article>
-    <div class="image-column">
+    <!-- ===== Video ===== -->
+    <div class="video-column">
         <iframe
                 src="https://www.youtube-nocookie.com/embed/znzPX8EypHk?enablejsapi=1&amp;rel=0"
                 title="YouTube video player"
-                frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
                 class="responsive-video">
@@ -534,6 +504,61 @@
         </script>
     </div>
 </section>
-<footer class="footer">ProcessLogTailor</footer>
+<footer class="footer">ProcessLogEvent</footer>
+<script>
+    // ===== Event for the Get Started button ===== //
+    document.getElementById('Upload').addEventListener('click', function () {
+        fetchContent('upload.html');
+    });
+
+    function fetchContent(url) {
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('content-section').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error fetching content:', error);
+                document.getElementById('content-section').innerHTML = '<p>Error loading content. Please try again later.</p>';
+            });
+    }
+
+    // ===== FAQ Answer ===== //
+    $(document).ready(function () {
+        $('.faq-section li').click(function () {
+            $(this).toggleClass('open');
+            $(this).find('.answer').slideToggle();
+        });
+        // ===== Like icon  ===== //
+        $('.like-icon').click(function () {
+            const likeCountElement = $(this).siblings('.like-count');
+            let likeCount = parseInt(likeCountElement.text());
+            let isLiked = $(this).data('liked');
+            if (isLiked) {
+                likeCount -= 1;
+                $(this).attr('src', 'https://cdn-icons-png.freepik.com/256/8647/8647296.png?ga=GA1.1.648560867.1713175690&semt=ais_hybrid');
+                $(this).data('liked', false);
+            } else {
+                likeCount += 1;
+                $(this).attr('src', 'https://cdn-icons-png.freepik.com/128/2839/2839214.png');
+                $(this).data('liked', true);
+            }
+            likeCountElement.text(likeCount + ' likes');
+        });
+
+        // ===== Change image every 3 seconds ===== //
+        let currentIndex = 0;
+        const images = $('.carousel-image');
+        const totalImages = images.length;
+
+        function showNextImage() {
+            images.eq(currentIndex).removeClass('active');
+            currentIndex = (currentIndex + 1) % totalImages;
+            images.eq(currentIndex).addClass('active');
+        }
+
+        setInterval(showNextImage, 3000);
+    });
+</script>
 </body>
 </html>
