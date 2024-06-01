@@ -19,18 +19,16 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background-color: #fff;
             height: 100%;
             width: 100%;
+            align-items: center;
         }
 
         .member-list-section {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #f7f7f7;
-            padding: 1px 0;
-            width: 100%;
+            width: 90%;
             flex: 1;
         }
 
@@ -141,11 +139,12 @@
         }
 
         .profile-pic {
-            width: 200px;
+            width: 150px;
             aspect-ratio: 0.77;
             object-fit: cover;
             object-position: center;
             border-radius: 20px;
+            border: 1px solid antiquewhite;
         }
 
         @media (max-width: 991px) {
@@ -173,7 +172,7 @@
             font-family: Inter, sans-serif;
             font-weight: 500;
             line-height: 150%;
-            font-size: 18px;
+            font-size: 14px;
         }
 
         .interests-title {
@@ -198,24 +197,24 @@
         }
     </style>
 </head>
-
 <body>
 <div class="container">
+    <header class="header">Team member</header>
     <section class="member-list-section">
-        <header class="header">Team member</header>
         <div class="team-container">
             <div class="team-row">
                 <article class="member-card">
                     <div class="member-connect">
                         <div class="image-column">
-                            <img class="profile-pic" src="http://203.249.22.99/static/AdminLTE/images/Prof.KimKwanghoonPio.png" alt="Charles's profile picture">
+                            <img class="profile-pic"
+                                 src="http://203.249.22.99/static/AdminLTE/images/Prof.KimKwanghoonPio.png"
+                                 alt="Charles's profile picture">
                         </div>
                         <div class="info-column">
                             <div class="member-details">
                                 <strong class="member-name">김 광 훈 (Kwanghoon Pio Kim)</strong>
-                                <span class="member-designation">1984년 경기대학교 전자계산학과(이학사)</span>
                                 <span class="member-designation">1998년～현재 경기대학교 AI컴퓨터공학부</span>
-                                 <span class="member-designation">1998년～현재 데이터프로세스공학연구실 교수</span>
+                                <span class="member-designation">1998년～현재 데이터-프로세스공학연구실 교수</span>
                                 <span class="member-designation">2023년～현재 한국인터넷정보학회 회장</span>
                                 <span class="interests-title">관심분야:</span>
                                 <div class="interests-tags">
@@ -231,12 +230,15 @@
                 <article class="member-card">
                     <div class="member-connect">
                         <div class="image-column">
-                            <img class="profile-pic" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/1200px-Flag_of_South_Korea.svg.png" alt="Charles's profile picture">
+                            <img class="profile-pic"
+                                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/1200px-Flag_of_South_Korea.svg.png"
+                                 alt="Charles's profile picture" style="margin-top: 13px">
                         </div>
                         <div class="info-column">
                             <div class="member-details">
                                 <strong class="member-name">최 민 규 (Min Kyu Choi)</strong>
                                 <span class="member-designation">2022년~ 현재 경기대학교 컴퓨터공학전공 학사</span>
+                                <span class="member-designation">2024년 한국기술정보학회 우수논문상 금상</span>
                                 <span class="interests-title">관심분야:</span>
                                 <div class="interests-tags">
                                     <span class="interest-tag">없음</span>
@@ -251,78 +253,15 @@
                 <article class="member-card">
                     <div class="member-connect">
                         <div class="image-column">
-                            <img class="profile-pic" src="https://tulieuvankien.dangcongsan.vn/Uploads/2018/6/5/17/quockyvn.JPG" alt="Charles's profile picture">
-                        </div>
-                        <div class="info-column">
-                            <div class="member-details">
-                                <strong class="member-name">VO QUOC ANH (보꾸옥안)</strong>
-                                <span class="member-designation">2021년～현재 경기대학교 AI컴퓨터공학전공 학사</span>
-                                <span class="member-designation">2023년 한국기술정보학회 우수논문상 동상</span>
-                                <span class="interests-title">관심분야:</span>
-                                <div class="interests-tags">
-                                    <span class="interest-tag">AI,</span>
-                                    <span class="interest-tag">UI/UX Design,</span>
-                                    <span class="interest-tag">Web Design,</span>
-                                    <span class="interest-tag">Spring Boot,</span>
-                                    <span class="interest-tag">Software Tester...</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </div>
-        <div class="team-container">
-            <div class="team-row">
-                <article class="member-card">
-                    <div class="member-connect">
-                        <div class="image-column">
-                            <img class="profile-pic" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/1200px-Flag_of_South_Korea.svg.png" alt="Charles's profile picture">
-                        </div>
-                        <div class="info-column">
-                            <div class="member-details">
-                                <strong class="member-name">변 주 형 (Ju hyeong Byeon)</strong>
-                                <span class="member-designation">2020년~ 현재 경기대학교 경제전공 학사</span>
-                                <span class="interests-title">관심분야:</span>
-                                <div class="interests-tags">
-                                    <span class="interest-tag">없음</span>
-                                    <span class="interest-tag"></span>
-                                    <span class="interest-tag"></span>
-                                    <span class="interest-tag"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-                <article class="member-card">
-                    <div class="member-connect">
-                        <div class="image-column">
-                            <img class="profile-pic" src="https://tulieuvankien.dangcongsan.vn/Uploads/2018/6/5/17/quockyvn.JPG" alt="Charles's profile picture">
-                        </div>
-                        <div class="info-column">
-                            <div class="member-details">
-                                <strong class="member-name">NGUYEN DANG TUNG (응웬당퉁)</strong>
-                                <span class="member-designation">2020년~ 현재 경기대학교 컴퓨터공학부 학사</span>
-                                <span class="interests-title">관심분야:</span>
-                                <div class="interests-tags">
-                                    <span class="interest-tag">자바스크립트,</span>
-                                    <span class="interest-tag">파이썬...</span>
-                                    <span class="interest-tag"></span>
-                                    <span class="interest-tag"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-                <article class="member-card">
-                    <div class="member-connect">
-                        <div class="image-column">
-                            <img class="profile-pic" src="https://tulieuvankien.dangcongsan.vn/Uploads/2018/6/5/17/quockyvn.JPG" alt="Charles's profile picture">
+                            <img class="profile-pic"
+                                 src="https://tulieuvankien.dangcongsan.vn/Uploads/2018/6/5/17/quockyvn.JPG"
+                                 alt="Charles's profile picture" style="margin-top: 13px">
                         </div>
                         <div class="info-column">
                             <div class="member-details">
                                 <strong class="member-name">TRINH THI NGUYET (찐티응엣)</strong>
                                 <span class="member-designation">2020년~ 햔재 경기대학교 컴퓨터공학부 학사</span>
+                                <span class="member-designation">2024년 한국기술정보학회 우수논문상 금상</span>
                                 <span class="interests-title">관심분야:</span>
                                 <div class="interests-tags">
                                     <span class="interest-tag">자바 언어,</span>
@@ -341,12 +280,90 @@
                 <article class="member-card">
                     <div class="member-connect">
                         <div class="image-column">
-                            <img class="profile-pic" src="https://tulieuvankien.dangcongsan.vn/Uploads/2018/6/5/17/quockyvn.JPG" alt="Charles's profile picture">
+                            <img class="profile-pic"
+                                 src="https://tulieuvankien.dangcongsan.vn/Uploads/2018/6/5/17/quockyvn.JPG"
+                                 alt="Charles's profile picture">
+                        </div>
+                        <div class="info-column">
+                            <div class="member-details">
+                                <strong class="member-name">VO QUOC ANH (보꾸옥안)</strong>
+                                <span class="member-designation">2021년～현재 경기대학교 AI컴퓨터공학전공 학사</span>
+                                <span class="member-designation">2023년 한국기술정보학회 우수논문상 동상</span>
+                                <span class="member-designation">2024년 한국기술정보학회 우수논문상 금상</span>
+                                <span class="interests-title">관심분야:</span>
+                                <div class="interests-tags">
+                                    <span class="interest-tag">AI,</span>
+                                    <span class="interest-tag">UI/UX Design,</span>
+                                    <span class="interest-tag">Web Design,</span>
+                                    <span class="interest-tag">Spring Boot,</span>
+                                    <span class="interest-tag">Software Tester...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="member-card">
+                    <div class="member-connect">
+                        <div class="image-column">
+                            <img class="profile-pic"
+                                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/1200px-Flag_of_South_Korea.svg.png"
+                                 alt="Charles's profile picture">
+                        </div>
+                        <div class="info-column">
+                            <div class="member-details">
+                                <strong class="member-name">변 주 형 (Ju hyeong Byeon)</strong>
+                                <span class="member-designation">2020년~ 현재 경기대학교 경제전공 학사</span>
+                                <span class="member-designation">2024년 한국기술정보학회 우수논문상 금상</span>
+                                <span class="interests-title">관심분야:</span>
+                                <div class="interests-tags">
+                                    <span class="interest-tag">없음</span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="member-card">
+                    <div class="member-connect">
+                        <div class="image-column">
+                            <img class="profile-pic"
+                                 src="https://tulieuvankien.dangcongsan.vn/Uploads/2018/6/5/17/quockyvn.JPG"
+                                 alt="Charles's profile picture">
+                        </div>
+                        <div class="info-column">
+                            <div class="member-details">
+                                <strong class="member-name">NGUYEN DANG TUNG (응웬당퉁)</strong>
+                                <span class="member-designation">2020년~ 현재 경기대학교 컴퓨터공학부 학사</span>
+                                <span class="member-designation">2024년 한국기술정보학회 우수논문상 금상</span>
+                                <span class="interests-title">관심분야:</span>
+                                <div class="interests-tags">
+                                    <span class="interest-tag">자바스크립트,</span>
+                                    <span class="interest-tag">파이썬...</span>
+                                    <span class="interest-tag"></span>
+                                    <span class="interest-tag"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="team-container">
+            <div class="team-row">
+                <article class="member-card">
+                    <div class="member-connect">
+                        <div class="image-column">
+                            <img class="profile-pic"
+                                 src="https://tulieuvankien.dangcongsan.vn/Uploads/2018/6/5/17/quockyvn.JPG"
+                                 alt="Charles's profile picture">
                         </div>
                         <div class="info-column">
                             <div class="member-details">
                                 <strong class="member-name">LE THI NGAN (레티응언)</strong>
                                 <span class="member-designation">2020년~ 현재 경기대학교 컴퓨터공학부 학사</span>
+                                <span class="member-designation">2024년 한국기술정보학회 우수논문상 금상</span>
                                 <span class="interests-title">관심분야:</span>
                                 <div class="interests-tags">
                                     <span class="interest-tag">없음</span>
@@ -361,12 +378,15 @@
                 <article class="member-card">
                     <div class="member-connect">
                         <div class="image-column">
-                            <img class="profile-pic" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/1200px-Flag_of_South_Korea.svg.png" alt="Charles's profile picture">
+                            <img class="profile-pic"
+                                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/1200px-Flag_of_South_Korea.svg.png"
+                                 alt="Charles's profile picture">
                         </div>
                         <div class="info-column">
                             <div class="member-details">
                                 <strong class="member-name">박 종 현 (Jong Hyeon Park)</strong>
                                 <span class="member-designation">2019년~ 현재 경기대학교 컴퓨터공학전공 학사</span>
+                                <span class="member-designation">2024년 한국기술정보학회 우수논문상 금상</span>
                                 <span class="interests-title">관심분야:</span>
                                 <div class="interests-tags">
                                     <span class="interest-tag">없음</span>
@@ -381,12 +401,15 @@
                 <article class="member-card">
                     <div class="member-connect">
                         <div class="image-column">
-                            <img class="profile-pic" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/1200px-Flag_of_South_Korea.svg.png" alt="Charles's profile picture">
+                            <img class="profile-pic"
+                                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/1200px-Flag_of_South_Korea.svg.png"
+                                 alt="Charles's profile picture">
                         </div>
                         <div class="info-column">
                             <div class="member-details">
                                 <strong class="member-name">김 영 광 (Young Kwang Kim)</strong>
                                 <span class="member-designation">2022년~ 현재 경기대학교 컴퓨터공학전공 학사</span>
+                                <span class="member-designation">2024년 한국기술정보학회 우수논문상 금상</span>
                                 <span class="interests-title">관심분야:</span>
                                 <div class="interests-tags">
                                     <span class="interest-tag">없음</span>
