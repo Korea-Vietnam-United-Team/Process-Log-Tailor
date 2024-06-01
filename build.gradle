@@ -44,6 +44,10 @@ dependencies {
     implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0'
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+    //  Additional DB H2
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'com.h2database:h2'
 }
 
 dependencyManagement {

@@ -2,19 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Data View</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+    <!-- ===== Name Project ===== -->
+    <title>ProcessLogEvent</title>
+    <!-- ===== Icon Logo Image ===== -->
+    <link rel="icon"
+          href="https://static.vecteezy.com/system/resources/previews/009/132/571/original/xes-logo-xes-letter-xes-letter-logo-design-initials-xes-logo-linked-with-circle-and-uppercase-monogram-logo-xes-typography-for-technology-business-and-real-estate-brand-vector.jpg"
+          type="image/png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            background-color: var(--body-color);
+            color: #333;
         }
+
         .wrapper {
             display: flex;
             flex-direction: column;
@@ -22,54 +28,67 @@
             align-items: center;
             flex: 1;
             width: 100%;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin: 20px auto;
             padding: 20px;
+            background-color: var(--body-color);
         }
+
         h1, h2 {
-            color: #333;
+            color: #007BFF;
             text-align: center;
         }
+
         h2 {
             font-size: 24px;
             border-bottom: 2px solid #ddd;
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
+
         table {
             width: 80%;
             max-width: 1000px;
             border-collapse: collapse;
-            margin-bottom: 20px;
-            margin: auto;
+            margin: 20px auto; /* Center the table horizontally */
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
         th, td {
-            border: 1px solid #ccc;
             padding: 10px;
             text-align: left;
             font-size: 16px;
         }
+
         th {
-            background-color: #f1f1f1;
+            background-color: #007BFF;
+            color: white;
         }
-        tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
+
         tbody tr:hover {
             background-color: #e1e1e1;
         }
+
         .section {
             margin-bottom: 40px;
             width: 100%;
         }
+
         header, footer {
             width: 100%;
             background: #e1e1e1;
-            padding: 10px;
             text-align: center;
             flex-shrink: 0;
         }
+
         main {
             width: 100%;
             flex: 1;
@@ -78,10 +97,12 @@
             justify-content: center;
             align-items: center;
         }
+
         @media screen and (max-width: 600px) {
             table {
                 width: 100%;
             }
+
             th, td {
                 font-size: 14px;
                 padding: 8px;
@@ -97,118 +118,65 @@
     <main>
         <div class="section">
             <h2>Global Trace Attributes</h2>
-            <input type="text" id="globalTraceSearch" placeholder="Search for attributes..">
             <table>
                 <thead>
-                    <tr>
-                        <th>Key</th>
-                        <th>Value</th>
-                        <th>Type</th>
-                    </tr>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                    <th>Type</th>
+                </tr>
                 </thead>
                 <tbody id="globalTraceTable">
-                    <tr th:each="attribute : ${globalTraceSelectAttributes}">
-                        <td th:text="${attribute.key}"></td>
-                        <td th:text="${attribute.value}"></td>
-                        <td th:text="${attribute.type}"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="section">
-            <h2>Global Event Attributes</h2>
-            <input type="text" id="globalEventSearch" placeholder="Search for attributes..">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Key</th>
-                        <th>Value</th>
-                        <th>Type</th>
-                    </tr>
-                </thead>
-                <tbody id="globalEventTable">
-                    <tr th:each="attribute : ${globalEventSelectAttributes}">
-                        <td th:text="${attribute.key}"></td>
-                        <td th:text="${attribute.value}"></td>
-                        <td th:text="${attribute.type}"></td>
-                    </tr>
+                <tr th:each="attribute : ${globalTraceSelectAttributes}">
+                    <td th:text="${attribute.key}"></td>
+                    <td th:text="${attribute.value}"></td>
+                    <td th:text="${attribute.type}"></td>
+                </tr>
                 </tbody>
             </table>
         </div>
 
         <div class="section">
             <h2>Classifiers</h2>
-            <input type="text" id="classifiersSearch" placeholder="Search for classifiers..">
             <table>
                 <thead>
-                    <tr>
-                        <th>Key</th>
-                        <th>Value</th>
-                        <th>Type</th>
-                    </tr>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                    <th>Type</th>
+                </tr>
                 </thead>
                 <tbody id="classifiersTable">
-                    <tr th:each="classifier : ${classifiers}">
-                        <td th:text="${classifier.key}"></td>
-                        <td th:text="${classifier.value}"></td>
-                        <td th:text="${classifier.type}"></td>
-                    </tr>
+                <tr th:each="classifier : ${classifiers}">
+                    <td th:text="${classifier.key}"></td>
+                    <td th:text="${classifier.value}"></td>
+                    <td th:text="${classifier.type}"></td>
+                </tr>
                 </tbody>
             </table>
         </div>
 
         <div class="section">
             <h2>Event Attributes</h2>
-            <input type="text" id="eventSearch" placeholder="Search for attributes..">
             <table>
                 <thead>
-                    <tr>
-                        <th>Key</th>
-                        <th>Value</th>
-                    </tr>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                </tr>
                 </thead>
                 <tbody id="eventTable">
-                    <tr th:each="entry : ${eventAttributes.entrySet()}">
-                        <td th:text="${entry.key}"></td>
-                        <td th:text="${entry.value}"></td>
-                    </tr>
+                <tr th:each="entry : ${eventAttributes.entrySet()}">
+                    <td th:text="${entry.key}"></td>
+                    <td th:text="${entry.value}"></td>
+                </tr>
                 </tbody>
             </table>
         </div>
     </main>
 </div>
 <footer>
-    <p>© 2024 Data View</p>
+    <h1>ProcessLogEvent</h1>
 </footer>
-
-<script>
-    $(document).ready(function(){
-        // Highlight row on hover
-        $("tbody tr").hover(
-            function() {
-                $(this).css("background-color", "#e1e1e1");
-            },
-            function() {
-                $(this).css("background-color", "");
-            }
-        );
-
-        // Filter rows based on search input
-        function filterTable(inputId, tableId) {
-            $(inputId).on("keyup", function() {
-                var value = $(this).val().toLowerCase();
-                $(tableId + " tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
-        }
-
-        filterTable("#globalTraceSearch", "#globalTraceTable");
-        filterTable("#globalEventSearch", "#globalEventTable");
-        filterTable("#classifiersSearch", "#classifiersTable");
-        filterTable("#eventSearch", "#eventTable");
-    });
-</script>
 </body>
 </html>

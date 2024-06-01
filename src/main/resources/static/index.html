@@ -37,7 +37,7 @@
         .main-content {
             display: flex;
             justify-content: space-between;
-            margin: 90px auto;
+            margin: 30px auto;
             max-width: 85%;
             width: 100%;
         }
@@ -54,9 +54,15 @@
             margin: 0 30px;
         }
 
+        .image-container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .image-section {
             flex: 1;
-            margin: 0 10px;
+            display: flex;
             align-items: center;
             justify-content: center;
         }
@@ -161,12 +167,12 @@
         }
 
         .image-container img {
-            width: 100%;
+            width: 61%;
             max-width: 100%;
-            height: 700px;
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
             transition: transform 0.2s, box-shadow 0.2s;
+            margin-left: 100px;
         }
 
         .carousel-image {
@@ -269,7 +275,7 @@
 
         .event-title {
             letter-spacing: -1.28px;
-            font: 700 40px Inter, sans-serif;
+            font: 700 35px Inter, sans-serif;
         }
 
         @media (max-width: 991px) {
@@ -293,7 +299,7 @@
 
         .event-description {
             margin-top: 24px;
-            font: 500 20px/30px Inter, sans-serif;
+            font: 500 16px/30px Inter, sans-serif;
             text-align: justify;
         }
 
@@ -381,22 +387,14 @@
     </section>
     <section class="image-section">
         <div class="image-container">
-            <img src="https://github.com/mitsumi73/Web-project-1222/raw/main/src/main/resources/static/images/Fragment-of-the-XES-file-format-for-the-test-event-log.png"
+            <img src="images/Group 11.png"
                  alt="Description of image 1" loading="lazy" class="carousel-image active"/>
-            <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbFYDXv%2Fbtqy1gu32ui%2FuPQgLTrTAvKGD9HQvuJf81%2Fimg.png"
-                 alt="Description of image 2" loading="lazy" class="carousel-image "/>
-            <img src="https://github.com/mitsumi73/Web-project-1222/raw/main/src/main/resources/static/images/Meta-model-of-the-XES-standard-as-proposed-in-1.png"
-                 alt="Description of image 3" loading="lazy" class="carousel-image"/>
-            <img src="https://github.com/mitsumi73/Web-project-1222/raw/main/src/main/resources/static/images/EventLog.png"
-                 alt="Description of image 4" loading="lazy" class="carousel-image"/>
-            <img src="https://github.com/mitsumi73/Web-project-1222/raw/main/src/main/resources/static/images/Select.png"
-                 alt="Description of image 5" loading="lazy" class="carousel-image"/>
         </div>
     </section>
 </main>
 <div class="intro-text">
     <h2>Hot New Process Mining Event Log</h2>
-    <hr>
+    <hr style="margin-top: 10px">
 </div>
 <section class="post-section">
     <article class="post">
@@ -493,7 +491,7 @@
                 Miriam Wagner took care of the instructions and assignments.</p>
             <p class="event-description">
                 Overview:
-            <ol style="margin-left: 100px">
+            <ol style="margin-left: 100px; font-size: 14px">
                 <li>Introduction to Process Mining</li>
                 <li>Decision Trees</li>
                 <li>Association Rules & Clustering</li>
