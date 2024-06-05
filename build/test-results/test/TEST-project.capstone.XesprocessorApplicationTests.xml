@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="project.capstone.XesprocessorApplicationTests" tests="1" skipped="0" failures="1" errors="0" timestamp="2024-06-05T10:36:30" hostname="DESKTOP-ENTEHIC" time="0.001">
+<testsuite name="project.capstone.XesprocessorApplicationTests" tests="1" skipped="0" failures="1" errors="0" timestamp="2024-06-05T11:16:16" hostname="DESKTOP-ENTEHIC" time="0.001">
   <properties/>
   <testcase name="initializationError" classname="project.capstone.XesprocessorApplicationTests" time="0.001">
     <failure message="java.lang.NullPointerException: Cannot invoke &quot;java.lang.Class.getName()&quot; because &quot;found&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;java.lang.Class.getName()&quot; because &quot;found&quot; is null
@@ -81,10 +81,10 @@
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
 </failure>
   </testcase>
-  <system-out><![CDATA[19:36:29.920 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [XesprocessorApplicationTests]: using SpringBootContextLoader
-19:36:29.927 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [project.capstone.XesprocessorApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
-19:36:29.928 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [project.capstone.XesprocessorApplicationTests]: XesprocessorApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-19:36:29.954 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using ContextCustomizers for test class [XesprocessorApplicationTests]: [DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, Customizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer]
+  <system-out><![CDATA[20:16:15.958 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [XesprocessorApplicationTests]: using SpringBootContextLoader
+20:16:15.963 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [project.capstone.XesprocessorApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+20:16:15.964 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [project.capstone.XesprocessorApplicationTests]: XesprocessorApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+20:16:15.991 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using ContextCustomizers for test class [XesprocessorApplicationTests]: [DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, Customizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer]
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

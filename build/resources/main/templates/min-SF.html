@@ -9,7 +9,8 @@
         }
 
         .container {
-            margin-top: 50px;
+            display: contents;
+            margin: 50px 30px 10px 30px;
         }
 
         .chart-container, .table-container {
@@ -181,14 +182,7 @@
                 });
             }
 
-            const sequenceSortButton = document.getElementById('sort-sequence');
             const frequencySortButton = document.getElementById('sort-frequency');
-            if (sequenceSortButton) {
-                sequenceSortButton.addEventListener('click', function() {
-                    sortTableByColumn(0, 'sequence');
-                });
-            }
-
             if (frequencySortButton) {
                 frequencySortButton.addEventListener('click', function() {
                     sortTableByColumn(1, 'frequency');

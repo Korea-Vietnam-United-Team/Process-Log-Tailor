@@ -22,6 +22,10 @@ repositories {
 	maven { url "https://repository.apache.org/snapshots/" }
 	maven { url "https://mvnrepository.com/artifact/org.deckfour/xes-lite/2.0.3" }
 	maven { url "https://repo.maven.apache.org/maven2" }
+     maven { url "https://maven-central.storage.googleapis.com/maven2/" }
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 configurations {
@@ -55,11 +59,11 @@ dependencies {
     implementation 'org.webjars:jquery:3.6.0'
     implementation 'org.webjars:chartjs:3.6.0'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation 'org.apache.commons:commons-compress:1.21' // Rollback to known version
-    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0' // Rollback to known version
+    implementation 'org.apache.commons:commons-compress:1.21'
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0'
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
     implementation 'org.apache.poi:poi-ooxml:5.0.0'
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
@@ -75,7 +79,18 @@ dependencies {
     implementation 'org.apache.xmlbeans:xmlbeans:5.1.1'
     implementation 'org.apache.poi:poi-ooxml-schemas:4.1.2'
     implementation 'org.ow2.asm:asm:9.5'
+    implementation 'org.apache.poi:poi:5.0.0'
+    implementation 'xalan:xalan:2.7.2'
+    implementation 'com.google.guava:guava:31.0.1-jre'
+    testImplementation 'junit:junit:4.13.2'
+    implementation 'jakarta.xml.ws:jakarta.xml.ws-api:3.0.1'
 }
+
+task runXesprocessor(type: JavaExec) {
+    main = 'com.yourpackage.XesprocessorApplication'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 
 dependencyManagement {
     imports {

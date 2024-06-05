@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 public class EventLog {
     @Id
@@ -23,6 +24,16 @@ public class EventLog {
     private String performer;
     private String lifecycleTransition;
     private String sequence;
+    private String note;
+    private String eventId;
+    private String activity;
+    private String docId;
+    private String subprocess;
+    private String identityId;
+    private String docType;
+    private String docIdUuid;
+    private boolean success;
+
 
     // Default constructor
     public EventLog() {
@@ -37,7 +48,79 @@ public class EventLog {
         this.lifecycleTransition = lifecycleTransition;
     }
 
-    // Getters and setters
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    public String getActivity() {
+        return activity;
+    }
+
+    public void setActivity(String activity) {
+        this.activity = activity;
+    }
+
+    public String getDocId() {
+        return docId;
+    }
+
+    public void setDocId(String docId) {
+        this.docId = docId;
+    }
+
+    public String getSubprocess() {
+        return subprocess;
+    }
+
+    public void setSubprocess(String subprocess) {
+        this.subprocess = subprocess;
+    }
+
+    public String getIdentityId() {
+        return identityId;
+    }
+
+    public void setIdentityId(String identityId) {
+        this.identityId = identityId;
+    }
+
+    public String getDocType() {
+        return docType;
+    }
+
+    public void setDocType(String docType) {
+        this.docType = docType;
+    }
+
+    public String getDocIdUuid() {
+        return docIdUuid;
+    }
+
+    public void setDocIdUuid(String docIdUuid) {
+        this.docIdUuid = docIdUuid;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
     public Long getId() {
         return id;
     }

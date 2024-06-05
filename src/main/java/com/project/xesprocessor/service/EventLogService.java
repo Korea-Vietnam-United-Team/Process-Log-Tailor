@@ -8,9 +8,19 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.xml.parsers.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.ByteArrayInputStream;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 
 @Service
 public class EventLogService {
@@ -24,6 +34,10 @@ public class EventLogService {
 
     public EventLog saveEventLog(EventLog eventLog) {
         return eventLogRepository.save(eventLog);
+    }
+
+    public void saveEventLogs(List<EventLog> eventLogs) {
+        eventLogRepository.saveAll(eventLogs);
     }
 
     public Optional<EventLog> findById(Long id) {
@@ -320,6 +334,87 @@ public class EventLogService {
                         (event == null || log.getEvent().equals(event)) &&
                         (transition == null || log.getLifecycleTransition().equals(transition)))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void deleteAllEventLogs() {
+        eventLogRepository.deleteAll();
+    }
+
+    public EventLog parseEvent(Element eventElement) {
+        EventLog eventLog = new EventLog();
+
+        eventLog.setNote(getStringValue(eventElement, "note"));
+        eventLog.setEventId(getStringValue(eventElement, "eventid"));
+        eventLog.setActivity(getStringValue(eventElement, "activity"));
+        eventLog.setDocId(getStringValue(eventElement, "docid"));
+        eventLog.setSubprocess(getStringValue(eventElement, "subprocess"));
+        eventLog.setTimestamp(getStringValue(eventElement, "time:timestamp"));
+        eventLog.setIdentityId(getStringValue(eventElement, "identity:id"));
+        eventLog.setDocType(getStringValue(eventElement, "doctype"));
+        eventLog.setDocIdUuid(getStringValue(eventElement, "docid_uuid"));
+        eventLog.setPerformer(getStringValue(eventElement, "org:resource"));
+        eventLog.setSuccess(getBooleanValue(eventElement, "success"));
+        eventLog.setLifecycleTransition(getStringValue(eventElement, "lifecycle:transition"));
+
+        return eventLog;
+    }
+
+    private String getStringValue(Element eventElement, String key) {
+        NodeList nodeList = eventElement.getElementsByTagName("string");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element element = (Element) nodeList.item(i);
+            if (element.getAttribute("key").equals(key)) {
+                return element.getAttribute("value");
+            }
+        }
+        nodeList = eventElement.getElementsByTagName("date");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element element = (Element) nodeList.item(i);
+            if (element.getAttribute("key").equals(key)) {
+                return element.getAttribute("value");
+            }
+        }
+        nodeList = eventElement.getElementsByTagName("id");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element element = (Element) nodeList.item(i);
+            if (element.getAttribute("key").equals(key)) {
+                return element.getAttribute("value");
+            }
+        }
+        return null;
+    }
+
+    private boolean getBooleanValue(Element eventElement, String key) {
+        NodeList nodeList = eventElement.getElementsByTagName("boolean");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element element = (Element) nodeList.item(i);
+            if (element.getAttribute("key").equals(key)) {
+                return Boolean.parseBoolean(element.getAttribute("value"));
+            }
+        }
+        return false;
+    }
+
+    public List<EventLog> parseEventsFromXml(String xml) {
+        List<EventLog> eventLogs = new ArrayList<>();
+
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(new ByteArrayInputStream(xml.getBytes()));
+
+            NodeList nodeList = document.getElementsByTagName("event");
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Element eventElement = (Element) nodeList.item(i);
+                EventLog eventLog = parseEvent(eventElement);
+                eventLogs.add(eventLog);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return eventLogs;
     }
 }
 

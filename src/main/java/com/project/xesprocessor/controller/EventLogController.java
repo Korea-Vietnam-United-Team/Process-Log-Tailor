@@ -22,11 +22,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import java.util.List;
-
 
 @Controller
 public class EventLogController {
@@ -49,6 +52,9 @@ public class EventLogController {
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file, Model model) {
         try {
+            // Delete old event logs before processing the new file
+            eventLogService.deleteAllEventLogs();
+
             uploadedFileName = file.getOriginalFilename();
             File convFile = new File(System.getProperty("java.io.tmpdir") + "/" + uploadedFileName);
             file.transferTo(convFile);
@@ -56,6 +62,10 @@ public class EventLogController {
             InputStream inputStream = new FileInputStream(convFile);
             XesXmlParser parser = new XesXmlParser();
             List<XLog> logs = parser.parse(inputStream);
+
+            ExecutorService executorService = Executors.newFixedThreadPool(10); // Adjust the number of threads as needed
+            List<EventLog> eventLogsBatch = new ArrayList<>();
+            int batchSize = 1000; // Adjust batch size as needed
 
             for (XLog log : logs) {
                 for (XTrace trace : log) {
@@ -67,15 +77,35 @@ public class EventLogController {
                         eventLog.setEvent(attributes.get("concept:name").toString());
                         eventLog.setTimestamp(attributes.get("time:timestamp").toString());
                         eventLog.setLifecycleTransition(attributes.get("lifecycle:transition").toString());
-                        if (attributes.containsKey("org:resource")) {
-                            eventLog.setPerformer(attributes.get("org:resource").toString());
-                        } else {
-                            eventLog.setPerformer(null);
+                        eventLog.setPerformer(attributes.get("org:resource") != null ? attributes.get("org:resource").toString() : null);
+                        eventLog.setNote(attributes.get("note") != null ? attributes.get("note").toString() : null);
+                        eventLog.setEventId(attributes.get("eventid") != null ? attributes.get("eventid").toString() : null);
+                        eventLog.setActivity(attributes.get("activity") != null ? attributes.get("activity").toString() : null);
+                        eventLog.setDocId(attributes.get("docid") != null ? attributes.get("docid").toString() : null);
+                        eventLog.setSubprocess(attributes.get("subprocess") != null ? attributes.get("subprocess").toString() : null);
+                        eventLog.setIdentityId(attributes.get("identity:id") != null ? attributes.get("identity:id").toString() : null);
+                        eventLog.setDocType(attributes.get("doctype") != null ? attributes.get("doctype").toString() : null);
+                        eventLog.setDocIdUuid(attributes.get("docid_uuid") != null ? attributes.get("docid_uuid").toString() : null);
+                        eventLog.setSuccess(attributes.get("success") != null ? Boolean.parseBoolean(attributes.get("success").toString()) : false);
+
+                        eventLogsBatch.add(eventLog);
+
+                        if (eventLogsBatch.size() >= batchSize) {
+                            List<EventLog> batchToProcess = new ArrayList<>(eventLogsBatch);
+                            executorService.submit(() -> eventLogService.saveEventLogs(batchToProcess));
+                            eventLogsBatch.clear();
                         }
-                        eventLogService.saveEventLog(eventLog);
                     }
                 }
             }
+
+            // Process any remaining logs
+            if (!eventLogsBatch.isEmpty()) {
+                executorService.submit(() -> eventLogService.saveEventLogs(eventLogsBatch));
+            }
+
+            executorService.shutdown();
+            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         } catch (Exception e) {
             e.printStackTrace();
         }
