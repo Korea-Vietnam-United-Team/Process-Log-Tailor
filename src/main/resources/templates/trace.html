@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Trace Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .filter-form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .filter-form input {
+            margin-right: 10px;
+        }
+
+        .table-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-download,
+        .btn-primary,
+        .btn-secondary {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+    <script>
+        function setTrace(trace) {
+            const event = document.querySelector('.event-button.active')?.getAttribute('data-event') || '';
+            window.location.href = `/trace/filter?trace=${trace}&event=${event}`;
+        }
+
+        function setEvent(event) {
+            const trace = document.querySelector('.trace-button.active')?.getAttribute('data-trace') || '';
+            window.location.href = `/trace/filter?trace=${trace}&event=${event}`;
+        }
+
+        function clearFields() {
+            document.getElementById('trace-input').value = '';
+            document.getElementById('filter-form').submit();
+        }
+
+        function downloadSelected() {
+            const selectedLogs = Array.from(document.querySelectorAll('input[name="selectedLogs"]:checked'))
+                .map(checkbox => checkbox.value)
+                .join(',');
+            const downloadLink = document.getElementById('download-link');
+            downloadLink.href = `/details/download?selectedLogs=${selectedLogs}`;
+            downloadLink.click();
+        }
+
+        function toggleSelectAll() {
+            const selectAllCheckbox = document.getElementById('select-all');
+            const checkboxes = document.querySelectorAll('input[name="selectedLogs"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const traceButtons = document.querySelectorAll('.trace-button');
+            traceButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const trace = this.getAttribute('data-trace');
+                    setTrace(trace);
+                });
+            });
+
+            const eventButtons = document.querySelectorAll('.event-button');
+            eventButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const event = this.getAttribute('data-event');
+                    setEvent(event);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">Trace Details</h1>
+    <div class="filter-form">
+        <form id="filter-form" th:action="@{/trace/filter}" method="get" class="form-inline justify-content-center">
+            <div class="form-group">
+                <input type="text" name="trace" id="trace-input" placeholder="Enter Trace" class="form-control"/>
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <button type="button" id="clear-button" class="btn btn-secondary" style="margin-left: 10px"
+                    onclick="clearFields()">Clear
+            </button>
+        </form>
+    </div>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Trace</th>
+                <th>Event</th>
+                <th>Timestamp</th>
+                <th>lifecycle:transition</th>
+                <th>Select <input type="checkbox" id="select-all" onchange="toggleSelectAll()"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="log : ${logs}" th:data-trace="${log.trace}" th:data-event="${log.event}">
+                <td>
+                    <button class="btn btn-info trace-button" th:text="${log.trace}"
+                            th:data-trace="${log.trace}"></button>
+                </td>
+                <td>
+                    <button class="btn btn-info event-button" th:text="${log.event}"
+                            th:data-event="${log.event}"></button>
+                </td>
+                <td th:text="${log.timestamp}"></td>
+                <td th:text="${log.lifecycleTransition}"></td>
+                <td>
+                    <input type="checkbox" name="selectedLogs" th:value="${log.id}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-center btn-download">
+            <a id="download-link" style="display:none;"></a>
+            <button type="button" id="download-button" class="btn btn-success">Download Excel</button>
+        </div>
+        <script>
+            function downloadSelected() {
+                const selectedLogs = Array.from(document.querySelectorAll('input[name="selectedLogs"]:checked'))
+                    .map(checkbox => checkbox.value)
+                    .join(',');
+                if (selectedLogs.length === 0) {
+                    alert('No logs selected');
+                    return;
+                }
+                const downloadLink = document.getElementById('download-link');
+                downloadLink.href = `/details/download?selectedLogs=${selectedLogs}`;
+                downloadLink.click();
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const traceButtons = document.querySelectorAll('.trace-button');
+                traceButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const trace = this.getAttribute('data-trace');
+                        setTrace(trace);
+                    });
+                });
+
+                const eventButtons = document.querySelectorAll('.event-button');
+                eventButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const event = this.getAttribute('data-event');
+                        setEvent(event);
+                    });
+                });
+
+                const downloadButton = document.getElementById('download-button');
+                downloadButton.addEventListener('click', downloadSelected);
+            });
+        </script>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Event Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .filter-form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .filter-form input {
+            margin-right: 10px;
+        }
+        .table-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-download,
+        .btn-primary,
+        .btn-secondary {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .suggested-events,
+        .suggested-transitions {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .suggested-events .event-buttons,
+        .suggested-transitions .transition-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .suggested-events button,
+        .suggested-transitions button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        .table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+        }
+        .hidden {
+            display: none;
+        }
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Event Details</h1>
+        <div class="filter-form">
+            <form id="filter-form" th:action="@{/details/filter}" method="get" class="form-inline justify-content-center">
+                <button type="button" id="clear-button" class="btn btn-secondary" style="margin-left: 10px">Clear</button>
+            </form>
+            <div class="suggested-events">
+                <h5>Suggested Events:</h5>
+                <div class="event-buttons">
+                    <div th:each="uniqueEvent : ${uniqueEvents}">
+                        <button class="btn btn-info event-button" th:text="${uniqueEvent}" th:data-event="${uniqueEvent}"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="suggested-transitions">
+                <h5>Suggested lifecycle:transitions:</h5>
+                <div class="transition-buttons">
+                    <div th:each="uniqueTransition : ${uniqueTransitions}">
+                        <button class="btn btn-info transition-button" th:text="${uniqueTransition}" th:data-transition="${uniqueTransition}"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-container">
+            <div class="form-group">
+                <label for="rows-per-page">Select Number Of Rows: </label>
+                <select id="rows-per-page" class="form-control" style="width: auto; display: inline-block;">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="All">All</option>
+                </select>
+            </div>
+            <form id="table-form">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Trace</th>
+                            <th>Event</th>
+                            <th>Timestamp</th>
+                            <th>lifecycle:transition</th>
+                            <th>Select <input type="checkbox" id="select-all"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="log : ${logs}" th:data-trace="${log.trace}" th:data-event="${log.event}" th:data-transition="${log.lifecycleTransition}">
+                            <td th:text="${log.trace}"></td>
+                            <td th:text="${log.event}"></td>
+                            <td th:text="${log.timestamp}"></td>
+                            <td th:text="${log.lifecycleTransition}"></td>
+                            <td>
+                                <input type="checkbox" name="selectedLogs" th:value="${log.id}">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-center btn-download">
+                    <a id="download-link" style="display:none;"></a>
+                    <button type="button" id="download-button" class="btn btn-success">Download Excel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let rowsPerPage = 5;
+        let allRowsVisible = false;
+
+        function filterData() {
+            const event = document.querySelector('.event-button.active')?.getAttribute('data-event');
+            const transition = document.querySelector('.transition-button.active')?.getAttribute('data-transition');
+
+            const rows = document.querySelectorAll('.table-container tbody tr');
+            rows.forEach(row => {
+                const rowEvent = row.getAttribute('data-event');
+                const rowTransition = row.getAttribute('data-transition');
+
+                const matchEvent = !event || rowEvent === event;
+                const matchTransition = !transition || rowTransition === transition;
+
+                if (matchEvent && matchTransition) {
+                    row.style.display = ''; // Show rows matching all filters
+                } else {
+                    row.style.display = 'none'; // Hide rows not matching
+                }
+            });
+
+            const visibleRows = document.querySelectorAll('.table-container tbody tr:not([style*="display: none"])');
+            document.querySelector('.table-container').style.display = visibleRows.length > 0 ? 'block' : 'none'; // Show table if there are visible rows
+
+            paginateTable(); // Call paginateTable after filtering
+        }
+
+        function setEvent(event) {
+            document.querySelectorAll('.event-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.event-button[data-event="${event}"]`).classList.add('active');
+            filterData();
+        }
+
+        function setTransition(transition) {
+            document.querySelectorAll('.transition-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.transition-button[data-transition="${transition}"]`).classList.add('active');
+            filterData();
+        }
+
+        function clearFields() {
+            document.querySelectorAll('.event-button, .transition-button').forEach(btn => btn.classList.remove('active'));
+            filterData();
+        }
+
+        function downloadSelected() {
+            const selectedLogs = Array.from(document.querySelectorAll('input[name="selectedLogs"]:checked'))
+                .map(checkbox => checkbox.value)
+                .join(',');
+            const downloadLink = document.getElementById('download-link');
+            downloadLink.href = `/details/download?selectedLogs=${selectedLogs}`;
+            downloadLink.click();
+        }
+
+        function toggleSelectAll() {
+            const selectAllCheckbox = document.getElementById('select-all');
+            const visibleCheckboxes = document.querySelectorAll('.table-container tbody tr:not([style*="display: none"]) input[name="selectedLogs"]');
+            visibleCheckboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+        }
+
+        function paginateTable() {
+            const rows = document.querySelectorAll('.table-container tbody tr:not([style*="display: none"])');
+            const totalRows = rows.length;
+            const totalPages = Math.ceil(totalRows / rowsPerPage);
+            const paginationContainer = document.querySelector('.pagination-container');
+
+            rows.forEach((row, index) => {
+                if (allRowsVisible) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = (index >= (currentPage - 1) * rowsPerPage && index < currentPage * rowsPerPage) ? '' : 'none';
+                }
+            });
+
+            paginationContainer.innerHTML = `
+                <button class="btn btn-secondary" onclick="previousPage()" ${currentPage === 1 || allRowsVisible ? 'disabled' : ''}>Previous</button>
+                <span> Page ${currentPage} of ${totalPages} </span>
+                <button class="btn btn-secondary" onclick="nextPage()" ${currentPage === totalPages || allRowsVisible ? 'disabled' : ''}>Next</button>
+            `;
+        }
+
+        function changeRowsPerPage(value) {
+            if (value === 'All') {
+                allRowsVisible = true;
+                rowsPerPage = Number.MAX_SAFE_INTEGER;
+            } else {
+                allRowsVisible = false;
+                rowsPerPage = parseInt(value);
+            }
+            currentPage = 1;
+            paginateTable();
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                paginateTable();
+            }
+        }
+
+        function nextPage() {
+            const rows = document.querySelectorAll('.table-container tbody tr:not([style*="display: none"])');
+            const totalRows = rows.length;
+            const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+            if (currentPage < totalPages) {
+                currentPage++;
+                paginateTable();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            bindEvents();
+            filterData(); // Initial filter call to ensure correct data display
+        });
+
+        function bindEvents() {
+            const eventButtons = document.querySelectorAll('.event-button');
+            eventButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const event = this.getAttribute('data-event');
+                    setEvent(event);
+                });
+            });
+
+            const transitionButtons = document.querySelectorAll('.transition-button');
+            transitionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const transition = this.getAttribute('data-transition');
+                    setTransition(transition);
+                });
+            });
+
+            const clearButton = document.getElementById('clear-button');
+            if (clearButton) {
+                clearButton.addEventListener('click', function() {
+                    clearFields();
+                });
+            }
+
+            const downloadButton = document.getElementById('download-button');
+            if (downloadButton) {
+                downloadButton.addEventListener('click', function() {
+                    downloadSelected();
+                });
+            }
+
+            const selectAllCheckbox = document.getElementById('select-all');
+            if (selectAllCheckbox) {
+                selectAllCheckbox.addEventListener('change', toggleSelectAll);
+            }
+
+            const rowsPerPageSelect = document.getElementById('rows-per-page');
+            if (rowsPerPageSelect) {
+                rowsPerPageSelect.addEventListener('change', function() {
+                    changeRowsPerPage(this.value);
+                });
+            }
+
+            paginateTable();
+        }
+    </script>
+</body>
+</html>

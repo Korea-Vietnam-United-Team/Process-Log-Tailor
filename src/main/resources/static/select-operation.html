@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- ===== Meta ===== -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="보꾸옥안">
+    <!-- ===== Name Project ===== -->
+    <title>ProcessLogTailor</title>
+    <!-- ===== Icon Logo Image ===== -->
+    <link rel="icon" href="https://cdn-icons-png.freepik.com/128/7392/7392631.png" type="image/png">
+    <!-- ===== Js ===== -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--body-color);
+            color: #333;
+        }
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            flex: 1;
+            width: 100%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: var(--body-color);
+        }
+        h1, h2 {
+            color: #007BFF;
+            text-align: center;
+        }
+        h2 {
+            font-size: 24px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .event-list {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+            max-width: 600px;
+        }
+        .event-list li {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .event-list li:hover {
+            transform: scale(1.02);
+        }
+        .event-list li a {
+            text-decoration: none;
+            color: #333;
+            flex-grow: 1;
+            padding-left: 10px;
+        }
+        .event-list li a:hover {
+            transition: background-color 0.3s ease;
+        }
+        .event-list .index {
+            font-weight: bold;
+            padding-right: 10px;
+        }
+        header, footer {
+            width: 100%;
+            background: #e1e1e1;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        main {
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 80%;
+            max-width: 600px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .sort-buttons {
+            margin-bottom: 20px;
+        }
+        .sort-buttons button {
+            margin: 0 10px;
+            padding: 10px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        .event-button {
+            margin: 5px;
+            padding: 10px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background: #007BFF;
+            color: white;
+            border-radius: 4px;
+        }
+        .event-button:hover {
+            background: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        table {
+            width: 80%;
+            max-width: 600px;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Select Operation</h1>
+</header>
+<div class="wrapper">
+    <main>
+        <h2>Event Statistics</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Event Name</th>
+                <th>Count</th>
+            </tr>
+            <tbody></tbody>
+            </thead>
+        </table>
+        <h2>List Event</h2>
+        <input type="text" id="eventSearch" placeholder="Search for events..">
+        <div class="sort-buttons">
+            <button id="sortAsc">Sort A-Z</button>
+            <button id="sortDesc">Sort Z-A</button>
+        </div>
+        <div id="eventButtons">
+            <label>concept:name</label>
+        </div>
+        <ul class="event-list hidden" id="eventList">
+            <li th:each="eventName, iterStat : ${eventNames}">
+                <span class="index" th:text="${iterStat.index + 1}">1</span>
+                <a th:href="@{'/event?eventName=' + ${eventName}}" th:text="${eventName}">Event Name</a>
+            </li>
+        </ul>
+        <h2>Lifecycle Transitions</h2>
+        <div id="lifecycleButtons">
+            <label>lifecycle:transition</label>
+        </div>
+        <ul class="event-list hidden" id="lifecycleList">
+            <li th:each="lifecycleTransition, iterStat : ${lifecycleTransitions}">
+                <span class="index" th:text="${iterStat.index + 1}">1</span>
+                <a th:href="@{'/lifecycle?transition=' + ${lifecycleTransition}}" th:text="${lifecycleTransition}">Transition Name</a>
+            </li>
+        </ul>
+    </main>
+</div>
+<footer>
+    <h1>ProcessLogEvent</h1>
+</footer>
+<script>
+    $(document).ready(function () {
+        var eventCount = {};
+        var eventGroups = {};
+        var lifecycleCount = {};
+        var lifecycleGroups = {};
+
+        // Ẩn danh sách sự kiện ban đầu
+        $('#eventList').addClass('hidden');
+        $('#lifecycleList').addClass('hidden');
+
+        // Nhóm sự kiện theo tên và đếm chúng
+        $("#eventList li").each(function () {
+            var eventName = $(this).find("a").text();
+            if (!eventGroups[eventName]) {
+                eventGroups[eventName] = [];
+                eventCount[eventName] = 0;
+            }
+            eventGroups[eventName].push($(this));
+            eventCount[eventName]++;
+        });
+
+        // Nhóm lifecycle theo tên và đếm chúng
+        $("#lifecycleList li").each(function () {
+            var lifecycleName = $(this).find("a").text();
+            if (!lifecycleGroups[lifecycleName]) {
+                lifecycleGroups[lifecycleName] = [];
+                lifecycleCount[lifecycleName] = 0;
+            }
+            lifecycleGroups[lifecycleName].push($(this));
+            lifecycleCount[lifecycleName]++;
+        });
+
+        // Tạo nút cho mỗi nhóm sự kiện
+        $.each(eventGroups, function (eventName, events) {
+            var button = $('<button class="event-button">' + eventName + '</button>');
+            button.on("click", function () {
+                var visibleEvents = events.filter(function(event) {
+                    return event.is(':visible');
+                });
+                if (visibleEvents.length > 0) {
+                    // Nếu các sự kiện đang hiển thị, ẩn chúng đi
+                    $.each(events, function (index, eventItem) {
+                        eventItem.hide();
+                    });
+                } else {
+                    // Ẩn tất cả các mục trong danh sách sự kiện trước
+                    $("#eventList li").hide();
+                    // Hiển thị các sự kiện tương ứng
+                    $.each(events, function (index, eventItem) {
+                        eventItem.show();
+                    });
+                }
+                // Đặt lại chỉ số
+                resetIndexes('#eventList');
+                // Hiển thị danh sách sự kiện nếu nó đang ẩn
+                if ($('#eventList').hasClass('hidden')) {
+                    $('#eventList').removeClass('hidden');
+                }
+            });
+            $("#eventButtons").append(button);
+        });
+
+        // Tạo nút cho mỗi nhóm lifecycle
+        $.each(lifecycleGroups, function (lifecycleName, transitions) {
+            var button = $('<button class="event-button">' + lifecycleName + '</button>');
+            button.on("click", function () {
+                var visibleTransitions = transitions.filter(function(transition) {
+                    return transition.is(':visible');
+                });
+                if (visibleTransitions.length > 0) {
+                    // Nếu các sự kiện đang hiển thị, ẩn chúng đi
+                    $.each(transitions, function (index, transitionItem) {
+                        transitionItem.hide();
+                    });
+                } else {
+                    // Ẩn tất cả các mục trong danh sách sự kiện trước
+                    $("#lifecycleList li").hide();
+                    // Hiển thị các sự kiện tương ứng
+                    $.each(transitions, function (index, transitionItem) {
+                        transitionItem.show();
+                    });
+                }
+                // Đặt lại chỉ số
+                resetIndexes('#lifecycleList');
+                // Hiển thị danh sách sự kiện nếu nó đang ẩn
+                if ($('#lifecycleList').hasClass('hidden')) {
+                    $('#lifecycleList').removeClass('hidden');
+                }
+            });
+            $("#lifecycleButtons").append(button);
+        });
+
+        // Bộ lọc sự kiện dựa trên đầu vào tìm kiếm
+        $("#eventSearch").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#eventList li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+            resetIndexes('#eventList');
+        });
+
+        // Chức năng sắp xếp
+        function sortListAsc(listId) {
+            var list = $(listId);
+            var items = list.children("li:visible").get();
+            items.sort(function (a, b) {
+                var keyA = $(a).find("a").text().toLowerCase();
+                var keyB = $(b).text().toLowerCase();
+                return (keyA < keyB) ? -1 : (keyA > keyB) ? 1 : 0;
+            });
+            $.each(items, function (i, li) {
+                list.append(li);
+            });
+            resetIndexes(listId);
+        }
+
+        function sortListDesc(listId) {
+            var list = $(listId);
+            var items = list.children("li:visible").get();
+            items.sort(function (a, b) {
+                var keyA = $(a).find("a").text().toLowerCase();
+                var keyB = $(b).text().toLowerCase();
+                return (keyA > keyB) ? -1 : (keyA < keyB) ? 1 : 0;
+            });
+            $.each(items, function (i, li) {
+                list.append(li);
+            });
+            resetIndexes(listId);
+        }
+
+        // Gán chức năng sắp xếp cho các nút
+        $("#sortAsc").on("click", function() { sortListAsc("#eventList"); });
+        $("#sortDesc").on("click", function() { sortListDesc("#eventList"); });
+
+        // Hàm đặt lại chỉ số
+        function resetIndexes(listId) {
+            $(listId + " li:visible").each(function (index) {
+                $(this).find(".index").text(index + 1);
+            });
+        }
+
+        // Gọi ban đầu để đặt đúng chỉ số
+        resetIndexes('#eventList');
+        resetIndexes('#lifecycleList');
+
+        // Tạo bảng thống kê
+        var statsTable = $('table tbody');
+        var totalCount = 0;
+        $.each(eventCount, function (eventName, count) {
+            totalCount += count;
+            var row = $('<tr><td>' + eventName + '</td><td>' + count + '</td></tr>');
+            statsTable.append(row);
+        });
+
+        // Thêm hàng tổng cộng
+        var totalRow = $('<tr><td><strong>Total</strong></td><td><strong>' + totalCount + '</strong></td></tr>');
+        statsTable.append(totalRow);
+    });
+</script>
+</body>
+</html>
