@@ -1,40 +1,27 @@
-buildscript {
-    repositories {
-        mavenLocal()
-        maven { url 'https://maven.aliyun.com/repository/google/' }
-        maven { url 'https://maven.aliyun.com/repository/public/' }
-        maven { url 'https://maven.aliyun.com/repository/spring/' }
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
-        maven { url 'https://maven.aliyun.com/repository/spring-plugin/' }
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.7.0")
-        classpath("io.spring.gradle:dependency-management-plugin:1.1.5")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
-    }
-}
-
 plugins {
-    id "org.springframework.boot" version "2.7.0"
-    id "io.spring.dependency-management" version "1.0.15.RELEASE"
-    id "org.jetbrains.kotlin.jvm" version "1.6.21"
-    id "org.jetbrains.kotlin.plugin.spring" version "1.6.21"
-    id "org.jetbrains.kotlin.plugin.noarg" version "1.6.21"
+	id 'java'
+	id 'org.springframework.boot' version '3.2.4'
+	id 'io.spring.dependency-management' version '1.1.4'
 }
 
-apply(plugin = "io.spring.dependency-management")
-apply(plugin = "org.springframework.boot")
-
-group = 'project'
+group = 'com.pilleasychat'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
 repositories {
-    mavenCentral()
+	mavenCentral()
+	jcenter()
+	maven { url "https://repo.spring.io/milestone" }
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://jitpack.io" }
+	maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+	maven { url "https://repository.apache.org/snapshots/" }
+	maven { url "https://mvnrepository.com/artifact/org.deckfour/xes-lite/2.0.3" }
+	maven { url "https://repo.maven.apache.org/maven2" }
 }
 
 configurations {
@@ -53,8 +40,6 @@ dependencies {
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.1'
     implementation 'org.glassfish.jaxb:jaxb-runtime:3.0.1'
     implementation 'org.apache.poi:poi-ooxml:5.2.3'
-    implementation 'org.apache.poi:poi-ooxml-schemas:4.1.2'
-    implementation 'org.apache.xmlbeans:xmlbeans:5.1.1'
     implementation 'org.apache.taglibs:taglibs-standard-impl:1.2.5'
     implementation 'org.apache.taglibs:taglibs-standard-spec:1.2.5'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -65,45 +50,39 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'com.h2database:h2'
     implementation 'org.projectlombok:lombok'
+    implementation 'org.apache.poi:poi:5.2.2'
+    implementation 'org.apache.poi:poi-ooxml:5.2.2'
     implementation 'org.webjars:jquery:3.6.0'
     implementation 'org.webjars:chartjs:3.6.0'
-    implementation 'org.apache.commons:commons-compress:1.21'
-    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.apache.commons:commons-compress:1.21' // Rollback to known version
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0' // Rollback to known version
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
     testImplementation 'junit:junit:4.12'
+    implementation 'org.apache.poi:poi-ooxml:5.0.0'
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'com.fasterxml.jackson.core:jackson-annotations'
     implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'org.apache.xmlbeans:xmlbeans:5.0.2'
     implementation 'org.apache.commons:commons-collections4:4.4'
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+    implementation 'org.apache.poi:poi:5.2.3'
+    implementation 'org.apache.xmlbeans:xmlbeans:5.1.1'
     implementation files('libs/xes-standard-2.0.jar')
     runtimeOnly 'org.postgresql:postgresql'
-    implementation 'net.java.dev.jna:jna:5.8.0'
-    implementation 'net.java.dev.jna:jna-platform:5.8.0'
-}
-
-application {
-    mainClassName = 'com.capstone.Main'
+    implementation 'org.apache.xmlbeans:xmlbeans:5.1.1'
+    implementation 'org.apache.poi:poi-ooxml-schemas:4.1.2'
+    implementation 'org.ow2.asm:asm:9.5'
 }
 
 dependencyManagement {
     imports {
-        mavenBom('org.springframework.boot:spring-boot-dependencies:3.1.1') {
-            bomProperties([
-                    'spring-framework.version': '6.0.9'
-            ])
-        }
+        mavenBom "org.springframework.boot:spring-boot-dependencies:3.0.0"
     }
 }
+
 tasks.named('test') {
     useJUnitPlatform()
-}
-
-bootBuildImage {
-    builder = "paketobuildpacks/builder:tiny"
-    environment = [
-            "BP_NATIVE_IMAGE" : "true"
-    ]
-    buildpacks = ["gcr.io/paketo-buildpacks/java-native-image:7.1.0"]
 }
