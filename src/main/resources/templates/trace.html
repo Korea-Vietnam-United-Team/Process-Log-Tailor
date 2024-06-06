@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Trace Details</title>
+    <title>Event Details</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="https://cdn-icons-png.freepik.com/256/7392/7392631.png" type="image/png">
     <style>
         body {
             background-color: #f8f9fa;
@@ -18,7 +19,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            margin: 20px;
         }
 
         .filter-form input {
@@ -156,6 +157,7 @@
             }
 
             sortedRows.forEach(row => table.appendChild(row));
+            updateOrderColumn(); // Update order column after sorting
             changeRowsPerPage(document.getElementById('rows-per-page').value); // Repaginate after sorting
         }
 
@@ -182,6 +184,48 @@
             });
         }
 
+        function hideEmptyColumns() {
+            const table = document.querySelector('.table-container table');
+            const thElements = table.querySelectorAll('th');
+            const rowElements = table.querySelectorAll('tbody tr');
+
+            thElements.forEach((th, index) => {
+                if (index === 0 || index === thElements.length - 1) return; // Bỏ qua cột đầu tiên (Order) và cột cuối cùng (Select All)
+
+                let hasData = false;
+                rowElements.forEach(row => {
+                    const cell = row.cells[index];
+                    if (cell && cell.textContent.trim() !== '') {
+                        hasData = true;
+                    }
+                });
+                if (!hasData) {
+                    th.style.display = 'none';
+                    rowElements.forEach(row => {
+                        const cell = row.cells[index];
+                        if (cell) {
+                            cell.style.display = 'none';
+                        }
+                    });
+                } else {
+                    th.style.display = ''; // Ensure visible if it has data
+                }
+            });
+
+            // Đảm bảo cột "Select" luôn hiển thị
+            thElements[thElements.length - 1].style.display = '';
+            rowElements.forEach(row => {
+                row.cells[row.cells.length - 1].style.display = '';
+            });
+        }
+
+        function clearFields() {
+            document.getElementById('trace-input').value = '';
+            filterTable();
+            // Chuyển hướng về /trace
+            window.location.href = '/trace';
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             const rowsPerPageSelect = document.getElementById('rows-per-page');
             if (rowsPerPageSelect) {
@@ -193,6 +237,31 @@
             const searchInput = document.getElementById('trace-input');
             searchInput.addEventListener('input', filterTable);
 
+            const timestampSortButton = document.getElementById('sort-timestamp');
+            if (timestampSortButton) {
+                timestampSortButton.addEventListener('click', function () {
+                    sortTableByColumn(3, 'date'); // Update column index for correct column
+                    timestampSortButton.textContent = timestampSortButton.textContent === 'Sort by Timestamp' ? 'Unsort Timestamp' : 'Sort by Timestamp';
+                });
+            }
+
+            const performerSortButton = document.getElementById('sort-performer');
+            if (performerSortButton) {
+                performerSortButton.addEventListener('click', function () {
+                    sortTableByColumn(5, 'text'); // Update column index for correct column
+                    performerSortButton.textContent = performerSortButton.textContent === 'Sort by Performer' ? 'Unsort Performer' : 'Sort by Performer';
+                });
+            }
+
+            const lifecycleTransitionSortButton = document.getElementById('sort-lifecycle-transition');
+            if (lifecycleTransitionSortButton) {
+                lifecycleTransitionSortButton.addEventListener('click', function () {
+                    sortTableByColumn(4, 'text'); // Sắp xếp theo cột Lifecycle Transition (cột thứ 5, index = 4)
+                    lifecycleTransitionSortButton.textContent = lifecycleTransitionSortButton.textContent === 'Sort by Lifecycle Transition' ? 'Unsort Lifecycle Transition' : 'Sort by Lifecycle Transition';
+                });
+            }
+
+            hideEmptyColumns(); // Hide columns with no data on page load
             // Initialize table with default rows per page
             changeRowsPerPage(rowsPerPageSelect.value);
         });
@@ -200,14 +269,13 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center">Event Details</h1>
     <div class="filter-form">
+        <h1 style="padding-bottom: 30px" class="text-center">Event Details</h1>
         <form id="filter-form" class="form-inline justify-content-center">
             <div class="form-group">
                 <input type="text" name="trace" id="trace-input" placeholder="Search" class="form-control"/>
             </div>
-            <button type="button" class="btn btn-secondary" style="margin-left: 10px" onclick="clearFields()">Clear
-            </button>
+            <button type="button" class="btn btn-secondary" style="margin-left: 10px" onclick="clearFields()">Clear</button>
         </form>
     </div>
     <div class="table-container">
@@ -223,9 +291,9 @@
                 </select>
             </div>
             <div>
-                <button id="sort-timestamp" class="btn btn-secondary">Sort by Timestamp</button>
-                <button id="sort-performer" class="btn btn-secondary">Sort by Performer</button>
-                <button id="sort-activity" class="btn btn-secondary">Sort by Activity</button>
+                <button id="sort-timestamp" class="btn btn-secondary">Sort Timestamp</button>
+                <button id="sort-performer" class="btn btn-secondary">Sort Performer</button>
+                <button id="sort-lifecycle-transition" class="btn btn-secondary">Sort Lifecycle Transition</button>
             </div>
         </div>
         <table class="table table-striped">
@@ -304,6 +372,8 @@
     function clearFields() {
         document.getElementById('trace-input').value = '';
         filterTable();
+        // Chuyển hướng về /trace
+        window.location.href = '/trace';
     }
 
     function downloadSelected() {
@@ -355,7 +425,7 @@
         const timestampSortButton = document.getElementById('sort-timestamp');
         if (timestampSortButton) {
             timestampSortButton.addEventListener('click', function () {
-                sortTableByColumn(2, 'date');
+                sortTableByColumn(3, 'date');
                 timestampSortButton.textContent = timestampSortButton.textContent === 'Sort by Timestamp' ? 'Unsort Timestamp' : 'Sort by Timestamp';
             });
         }
@@ -363,22 +433,20 @@
         const performerSortButton = document.getElementById('sort-performer');
         if (performerSortButton) {
             performerSortButton.addEventListener('click', function () {
-                sortTableByColumn(4, 'text');
+                sortTableByColumn(5, 'text');
                 performerSortButton.textContent = performerSortButton.textContent === 'Sort by Performer' ? 'Unsort Performer' : 'Sort by Performer';
             });
         }
 
-        const activitySortButton = document.getElementById('sort-activity');
-        if (activitySortButton) {
-            activitySortButton.addEventListener('click', function () {
-                sortTableByColumn(7, 'text');
-                activitySortButton.textContent = activitySortButton.textContent === 'Sort by Activity' ? 'Unsort Activity' : 'Sort by Activity';
+        const lifecycleTransitionSortButton = document.getElementById('sort-lifecycle-transition');
+        if (lifecycleTransitionSortButton) {
+            lifecycleTransitionSortButton.addEventListener('click', function () {
+                sortTableByColumn(4, 'text'); // Sắp xếp theo cột Lifecycle Transition (cột thứ 5, index = 4)
+                lifecycleTransitionSortButton.textContent = lifecycleTransitionSortButton.textContent === 'Sort by Lifecycle Transition' ? 'Unsort Lifecycle Transition' : 'Sort by Lifecycle Transition';
             });
         }
 
-        const searchInput = document.getElementById('trace-input');
-        searchInput.addEventListener('input', filterTable);
-
+        hideEmptyColumns(); // Hide columns with no data on page load
         // Initialize table with default rows per page
         changeRowsPerPage(rowsPerPageSelect.value);
     });

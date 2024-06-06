@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>ProcessLogTailor</title>
+    <link rel="stylesheet" asset="eduser.css" href="chrome-extension://mjdbhokoopacimoekfgkcoogikbfgngb/assets/eduser.css">
+    <link rel="icon" href="https://cdn-icons-png.freepik.com/256/7392/7392631.png" type="image/png">
     <style>
         body {
             display: flex;
@@ -54,7 +57,7 @@
             margin: 0 30px;
         }
 
-        .image-container{
+        .image-container {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -87,26 +90,6 @@
             margin-top: 24px;
             font: 400 24px/36px Inter, sans-serif;
             color: #18191a;
-        }
-
-        body.dark .intro-text h2 {
-            color: var(--text-color);
-        }
-
-        body.dark .intro-text p {
-            color: var(--text-color);
-        }
-
-        body.dark .faq-section li .answer {
-            color: var(--text-color);
-        }
-
-        body.dark .faq-section h3 {
-            color: var(--text-color);
-        }
-
-        body.dark .faq-section li {
-            color: var(--text-color);
         }
 
         .button-get-started {
@@ -158,7 +141,6 @@
             content: "+";
             position: absolute;
             left: -20px;
-            color: var(--text-color);
             font-weight: bold;
         }
 
@@ -167,7 +149,7 @@
         }
 
         .image-container img {
-            width: 61%;
+            width: 70%;
             max-width: 100%;
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
@@ -352,7 +334,9 @@
             <p>This project primarily focuses on event logging and data visualization, designed to allow users to easily
                 upload and view data. It aims to provide an intuitive and efficient way for users to manage and analyze
                 their event logs.</p>
-            <a href="/upload"><button class="button-get-started">Get started</button></a>
+            <a href="/upload">
+                <button class="button-get-started">Get started</button>
+            </a>
         </div>
         <section class="faq-section">
             <h3>FAQ</h3>
@@ -532,36 +516,26 @@
         </script>
     </div>
 </section>
-<footer class="footer">ProcessLogEvent</footer>
+<footer class="footer">한-베트남연합팀</footer>
 <script>
-    // ===== Event for the Get Started button ===== //
-    document.getElementById('Upload').addEventListener('click', function () {
-        fetchContent('upload.html');
-    });
-
-    function fetchContent(url) {
-        fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('content-section').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error fetching content:', error);
-                document.getElementById('content-section').innerHTML = '<p>Error loading content. Please try again later.</p>';
-            });
-    }
-
-    // ===== FAQ Answer ===== //
     $(document).ready(function () {
+        // Gán sự kiện click cho các mục FAQ
         $('.faq-section li').click(function () {
             $(this).toggleClass('open');
             $(this).find('.answer').slideToggle();
         });
-        // ===== Like icon  ===== //
+
+        // Khởi tạo trạng thái liked cho các biểu tượng Like
+        $('.like-icon').each(function () {
+            $(this).data('liked', false);
+        });
+
+        // Gán sự kiện click cho các biểu tượng Like
         $('.like-icon').click(function () {
             const likeCountElement = $(this).siblings('.like-count');
             let likeCount = parseInt(likeCountElement.text());
             let isLiked = $(this).data('liked');
+
             if (isLiked) {
                 likeCount -= 1;
                 $(this).attr('src', 'https://cdn-icons-png.freepik.com/256/8647/8647296.png?ga=GA1.1.648560867.1713175690&semt=ais_hybrid');
@@ -573,19 +547,6 @@
             }
             likeCountElement.text(likeCount + ' likes');
         });
-
-        // ===== Change image every 3 seconds ===== //
-        let currentIndex = 0;
-        const images = $('.carousel-image');
-        const totalImages = images.length;
-
-        function showNextImage() {
-            images.eq(currentIndex).removeClass('active');
-            currentIndex = (currentIndex + 1) % totalImages;
-            images.eq(currentIndex).addClass('active');
-        }
-
-        setInterval(showNextImage, 3000);
     });
 </script>
 </body>
