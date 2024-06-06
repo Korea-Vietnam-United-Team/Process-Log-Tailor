@@ -100,10 +100,10 @@
 
             function updatePagination() {
                 paginationContainer.innerHTML = `
-                    <button class="btn btn-secondary" onclick="previousPage()" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>
-                    <span> Page ${currentPage} of ${totalPages} </span>
-                    <button class="btn btn-secondary" onclick="nextPage()" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>
-                `;
+                <button class="btn btn-secondary" onclick="previousPage()" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>
+                <span> Page ${currentPage} of ${totalPages} </span>
+                <button class="btn btn-secondary" onclick="nextPage()" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>
+            `;
             }
 
             window.previousPage = function () {
@@ -172,11 +172,11 @@
 
         function filterTable() {
             const input = document.getElementById('trace-input');
-            const filter = input.value.toLowerCase();
+            const filter = input.value; // Không chuyển đổi sang chữ thường để phân biệt chữ hoa và chữ thường
             const rows = document.querySelectorAll('.table-container tbody tr');
             filteredRows = Array.from(rows).filter(row => {
                 const cells = Array.from(row.cells);
-                return cells.some(cell => cell.textContent.toLowerCase().includes(filter));
+                return cells.some(cell => cell.textContent.includes(filter)); // So sánh trực tiếp để phân biệt chữ hoa và chữ thường
             });
 
             rows.forEach(row => {
