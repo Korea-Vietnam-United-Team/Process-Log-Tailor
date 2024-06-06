@@ -73,12 +73,19 @@
             align-items: center;
             margin-bottom: 10px;
         }
+
+        .search-result {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+        }
     </style>
     <script>
         let sortDirection = {}; // Track sort direction for each column
+        let filteredRows = []; // Store filtered rows
 
-        function paginateTable(rowsPerPage) {
-            const rows = document.querySelectorAll('.table-container tbody tr');
+        function paginateTable(rowsPerPage, rows) {
             const totalRows = rows.length;
             const totalPages = Math.ceil(totalRows / rowsPerPage);
             const paginationContainer = document.querySelector('.pagination-container');
@@ -88,7 +95,7 @@
                 rows.forEach((row, index) => {
                     row.style.display = (index >= (currentPage - 1) * rowsPerPage && index < currentPage * rowsPerPage) ? '' : 'none';
                 });
-                updateOrderColumn(); // Update order column whenever rows are displayed
+                updateOrderColumn((currentPage - 1) * rowsPerPage, rows); // Update order column whenever rows are displayed
             }
 
             function updatePagination() {
@@ -126,7 +133,9 @@
             } else {
                 rowsPerPage = parseInt(value);
             }
-            paginateTable(rowsPerPage);
+            localStorage.setItem('rowsPerPage', rowsPerPage); // Save the selected rows per page to localStorage
+            const rows = filteredRows.length ? filteredRows : document.querySelectorAll('.table-container tbody tr');
+            paginateTable(rowsPerPage, Array.from(rows));
         }
 
         function sortTableByColumn(columnIndex, type) {
@@ -165,19 +174,31 @@
             const input = document.getElementById('trace-input');
             const filter = input.value.toLowerCase();
             const rows = document.querySelectorAll('.table-container tbody tr');
+            filteredRows = Array.from(rows).filter(row => {
+                const cells = Array.from(row.cells);
+                return cells.some(cell => cell.textContent.toLowerCase().includes(filter));
+            });
 
             rows.forEach(row => {
-                const cells = Array.from(row.cells);
-                const match = cells.some(cell => cell.textContent.toLowerCase().includes(filter));
-                row.style.display = match ? '' : 'none';
+                row.style.display = 'none'; // Hide all rows initially
             });
+
+            // Show only filtered rows
+            filteredRows.forEach(row => {
+                row.style.display = '';
+            });
+
             updateOrderColumn(); // Update order column whenever rows are filtered
+            applyRowsPerPage(); // Apply the rows per page setting
+            updateSearchResultCount(filteredRows.length); // Update search result count
         }
 
-        function updateOrderColumn() {
-            const rows = document.querySelectorAll('.table-container tbody tr');
-            let order = 1;
-            rows.forEach(row => {
+        function updateOrderColumn(startIndex = 0, rows = null) {
+            if (!rows) {
+                rows = document.querySelectorAll('.table-container tbody tr');
+            }
+            let order = startIndex + 1;
+            Array.from(rows).forEach(row => {
                 if (row.style.display !== 'none') {
                     row.cells[0].textContent = order++;
                 }
@@ -226,6 +247,43 @@
             window.location.href = '/trace';
         }
 
+        function saveSearchState() {
+            const searchValue = document.getElementById('trace-input').value;
+            localStorage.setItem('searchState', searchValue);
+        }
+
+        function restoreSearchState() {
+            const savedSearch = localStorage.getItem('searchState');
+            if (savedSearch) {
+                document.getElementById('trace-input').value = savedSearch;
+                filterTable();
+            }
+        }
+
+        function applyRowsPerPage() {
+            const savedRowsPerPage = localStorage.getItem('rowsPerPage');
+            const rowsPerPageSelect = document.getElementById('rows-per-page');
+            if (savedRowsPerPage) {
+                rowsPerPageSelect.value = savedRowsPerPage === Number.MAX_SAFE_INTEGER.toString() ? 'All' : savedRowsPerPage;
+                const rows = filteredRows.length ? filteredRows : document.querySelectorAll('.table-container tbody tr');
+                paginateTable(parseInt(savedRowsPerPage), Array.from(rows));
+            } else {
+                // If no saved value, default to 10 rows per page
+                paginateTable(10, Array.from(rows));
+            }
+        }
+
+        function updateSearchResultCount(count) {
+            const resultDiv = document.getElementById('search-result-count');
+            if (count > 0) {
+                resultDiv.textContent = `Search Results: ${count}`;
+                resultDiv.style.display = 'block';
+            } else {
+                resultDiv.textContent = '';
+                resultDiv.style.display = 'none';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             const rowsPerPageSelect = document.getElementById('rows-per-page');
             if (rowsPerPageSelect) {
@@ -236,6 +294,13 @@
 
             const searchInput = document.getElementById('trace-input');
             searchInput.addEventListener('input', filterTable);
+
+            searchInput.addEventListener('keypress', function (event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    filterTable();
+                }
+            });
 
             const timestampSortButton = document.getElementById('sort-timestamp');
             if (timestampSortButton) {
@@ -262,8 +327,8 @@
             }
 
             hideEmptyColumns(); // Hide columns with no data on page load
-            // Initialize table with default rows per page
-            changeRowsPerPage(rowsPerPageSelect.value);
+            restoreSearchState(); // Restore the search state on page load
+            applyRowsPerPage(); // Apply the rows per page setting on page load
         });
     </script>
 </head>
@@ -277,6 +342,7 @@
             </div>
             <button type="button" class="btn btn-secondary" style="margin-left: 10px" onclick="clearFields()">Clear</button>
         </form>
+        <div id="search-result-count" class="search-result" style="display: none;">Search Results: 0</div>
     </div>
     <div class="table-container">
         <div class="table-options">
@@ -447,8 +513,8 @@
         }
 
         hideEmptyColumns(); // Hide columns with no data on page load
-        // Initialize table with default rows per page
-        changeRowsPerPage(rowsPerPageSelect.value);
+        restoreSearchState(); // Restore the search state on page load
+        applyRowsPerPage(); // Apply the rows per page setting on page load
     });
 </script>
 <script>
