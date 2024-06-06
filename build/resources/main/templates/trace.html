@@ -87,6 +87,7 @@
                 rows.forEach((row, index) => {
                     row.style.display = (index >= (currentPage - 1) * rowsPerPage && index < currentPage * rowsPerPage) ? '' : 'none';
                 });
+                updateOrderColumn(); // Update order column whenever rows are displayed
             }
 
             function updatePagination() {
@@ -168,6 +169,17 @@
                 const match = cells.some(cell => cell.textContent.toLowerCase().includes(filter));
                 row.style.display = match ? '' : 'none';
             });
+            updateOrderColumn(); // Update order column whenever rows are filtered
+        }
+
+        function updateOrderColumn() {
+            const rows = document.querySelectorAll('.table-container tbody tr');
+            let order = 1;
+            rows.forEach(row => {
+                if (row.style.display !== 'none') {
+                    row.cells[0].textContent = order++;
+                }
+            });
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -188,11 +200,11 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center">Trace Details</h1>
+    <h1 class="text-center">Event Details</h1>
     <div class="filter-form">
         <form id="filter-form" class="form-inline justify-content-center">
             <div class="form-group">
-                <input type="text" name="trace" id="trace-input" placeholder="Enter Trace" class="form-control"/>
+                <input type="text" name="trace" id="trace-input" placeholder="Search" class="form-control"/>
             </div>
             <button type="button" class="btn btn-secondary" style="margin-left: 10px" onclick="clearFields()">Clear
             </button>
@@ -219,7 +231,8 @@
         <table class="table table-striped">
             <thead class="thead-dark">
             <tr>
-                <th>Event</th>
+                <th id="order-column">Order</th>
+                <th>Trace ID</th>
                 <th>Name Event</th>
                 <th>Timestamp</th>
                 <th>Lifecycle Transition</th>
@@ -238,6 +251,7 @@
             </thead>
             <tbody>
             <tr th:each="log : ${logs}">
+                <td></td> <!-- Số thứ tự sẽ được thêm vào đây -->
                 <td th:if="${log.trace != null}">
                     <button class="btn btn-info trace-button" th:text="${log.trace}"
                             th:data-trace="${log.trace}"></button>
@@ -266,7 +280,8 @@
         </table>
         <div class="text-center btn-download">
             <a id="download-link" style="display:none;"></a>
-            <button type="button" id="download-button" class="btn btn-success">Download Excel</button>
+            <button type="button" id="download-excel-button" class="btn btn-success">Download Excel</button>
+            <button type="button" id="download-xes-button" class="btn btn-warning">Download XES</button>
         </div>
         <div class="pagination-container">
             <button class="btn btn-secondary" onclick="previousPage()" disabled>Previous</button>
@@ -367,6 +382,33 @@
         // Initialize table with default rows per page
         changeRowsPerPage(rowsPerPageSelect.value);
     });
+</script>
+<script>
+    function downloadSelected(format) {
+        const selectedLogs = Array.from(document.querySelectorAll('input[name="selectedLogs"]:checked'))
+            .map(checkbox => checkbox.value)
+            .join(',');
+        if (selectedLogs.length === 0) {
+            alert('No logs selected');
+            return;
+        }
+        const downloadLink = document.getElementById('download-link');
+        downloadLink.href = `/details/download?selectedLogs=${selectedLogs}&format=${format}`;
+        downloadLink.click();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const downloadExcelButton = document.getElementById('download-excel-button');
+        const downloadXesButton = document.getElementById('download-xes-button');
+
+        downloadExcelButton.addEventListener('click', function () {
+            downloadSelected('excel');
+        });
+
+        downloadXesButton.addEventListener('click', function () {
+            downloadSelected('xes');
+        });
+    })
 </script>
 </body>
 </html>

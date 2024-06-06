@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="file://$PROJECT_DIR$" libraries="{Chart.js, bootstrap, chart.js, jquery-3.3.1.slim, jquery-3.5.1.slim, jquery-3.6.0, jquery.dataTables, popper.js}" />
+    <file url="file://$PROJECT_DIR$/build/generated/sources/annotationProcessor/java/main" libraries="{Chart.js, chart.js, jquery-3.5.1.slim, jquery.dataTables}" />
+    <file url="file://$PROJECT_DIR$/src/main" libraries="{Chart.js, bootstrap, chart.js, jquery-3.3.1.slim, jquery-3.5.1.slim, jquery-3.6.0, jquery.dataTables, popper.js}" />
+    <file url="file://$PROJECT_DIR$/src/test" libraries="{Chart.js, bootstrap, chart.js, jquery-3.3.1.slim, jquery-3.5.1.slim, jquery-3.6.0, jquery.dataTables, popper.js}" />
+  </component>
+</project>
