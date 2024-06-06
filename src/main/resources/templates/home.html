@@ -323,6 +323,12 @@
                 margin-top: 40px;
             }
         }
+
+        .carousel-image{
+            display: flex;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+        }
     </style>
 </head>
 <body>
@@ -445,10 +451,23 @@
 </section>
 <br>
 <div class="intro-text">
-    <h2>Hot Process Video</h2>
+    <h2>Hot Process Mining</h2>
     <hr>
 </div>
 <section class="post-section" style="margin-top: 30px">
+       <div class="video-column">
+        <img src="/images/img.jpg" alt="Static Image" class="carousel-image active"/>
+        <img src="/images/img_1.png" alt="Static Image" class="carousel-image active"/>
+        <img src="/images/Screenshot 2024-06-07 080158.png" alt="Static Image" class="carousel-image active"/>
+        <script>
+            function postMessageToIframe(message) {
+                const iframe = document.querySelector('iframe');
+                iframe.contentWindow.postMessage(message, '*');
+            }
+
+            postMessageToIframe('{"event":"command","func":"playVideo","args":""}');
+        </script>
+    </div>
     <article class="text-column">
         <div class="event-info">
             <h1 class="event-title">Introduction to Process Discovery</h1>
@@ -495,26 +514,15 @@
                 <li>Discussion of an old/possible exam</li>
                 <li>Summary of the Course and Next Steps</li>
             </ol>
-        </div>
-    </article>
-    <!-- ===== Video ===== -->
-    <div class="video-column">
-        <iframe
+            <iframe
                 src="https://www.youtube.com/embed/8lNmOmqZpxw"
                 title="YouTube video player"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
                 class="responsive-video">
         </iframe>
-        <script>
-            function postMessageToIframe(message) {
-                const iframe = document.querySelector('iframe');
-                iframe.contentWindow.postMessage(message, '*');
-            }
-
-            postMessageToIframe('{"event":"command","func":"playVideo","args":""}');
-        </script>
-    </div>
+        </div>
+    </article>
 </section>
 <footer class="footer">한-베트남연합팀</footer>
 <script>
