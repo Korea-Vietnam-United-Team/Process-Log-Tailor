@@ -34,7 +34,7 @@
             width: 100%;
         }
 
-        tr td:nth-child(2) {
+        tr td:nth-child(3) {
             text-align: center;
         }
 
@@ -87,6 +87,7 @@
                 rows.forEach((row, index) => {
                     row.style.display = (index >= (currentPage - 1) * rowsPerPage && index < currentPage * rowsPerPage) ? '' : 'none';
                 });
+                updateOrderColumn(rowsPerPage, currentPage);
             }
 
             function updatePagination() {
@@ -151,8 +152,8 @@
                     const aFreq = parseInt(a.cells[columnIndex].textContent.trim());
                     const bFreq = parseInt(b.cells[columnIndex].textContent.trim());
                     if (aFreq === bFreq) {
-                        const aSeq = a.cells[0].textContent.trim();
-                        const bSeq = b.cells[0].textContent.trim();
+                        const aSeq = a.cells[1].textContent.trim();
+                        const bSeq = b.cells[1].textContent.trim();
                         return isAscending ? aSeq.localeCompare(bSeq) : bSeq.localeCompare(aSeq);
                     }
                     return isAscending ? aFreq - bFreq : bFreq - aFreq;
@@ -161,6 +162,13 @@
 
             sortedRows.forEach(row => table.appendChild(row));
             changeRowsPerPage(document.getElementById('rows-per-page').value); // Repaginate after sorting
+        }
+
+        function updateOrderColumn(rowsPerPage, currentPage) {
+            const rows = document.querySelectorAll('.table-container tbody tr');
+            rows.forEach((row, index) => {
+                row.querySelector('td').textContent = (currentPage - 1) * rowsPerPage + index + 1;
+            });
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -174,7 +182,7 @@
             const frequencySortButton = document.getElementById('sort-frequency');
             if (frequencySortButton) {
                 frequencySortButton.addEventListener('click', function() {
-                    sortTableByColumn(1, 'frequency');
+                    sortTableByColumn(2, 'frequency');
                     frequencySortButton.textContent = frequencySortButton.textContent === 'Frequency Decline' ? 'Frequency Ascension' : 'Frequency Decline';
                 });
             }
@@ -185,49 +193,52 @@
     </script>
 </head>
 <body>
-    <div class="container">
-        <h1 style="padding: 30px;" class="text-center">Event Sequence Frequency</h1>
-        <div class="table-container">
-            <div class="table-options">
-                <div>
-                    <label for="rows-per-page">Select Number Of Rows: </label>
-                    <select id="rows-per-page" class="form-control" style="width: auto; display: inline-block;">
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="All">All</option>
-                    </select>
-                </div>
-                <div>
-                    <button id="sort-frequency" class="btn btn-secondary">Frequency Decline</button>
-                </div>
+<div class="container">
+    <h1 style="padding: 30px;" class="text-center">Event Sequence Frequency</h1>
+    <div class="table-container">
+        <div class="table-options">
+            <div>
+                <label for="rows-per-page">Select Number Of Rows: </label>
+                <select id="rows-per-page" class="form-control" style="width: auto; display: inline-block;">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="All">All</option>
+                </select>
             </div>
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Sequence</th>
-                        <th>Frequency</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="sequence : ${sequences}">
-                        <td th:text="${sequence.key}"></td>
-                        <td th:text="${sequence.value}"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="text-center btn-download">
-                <a id="download-link" style="display:none;"></a>
-                <button type="button" id="download-button" class="btn btn-success" onclick="downloadExcel()">Download Excel</button>
-                <button type="button" id="download-xes-button" class="btn btn-warning">Download XES</button>
-            </div>
-            <div class="pagination-container">
-                <button class="btn btn-secondary" onclick="previousPage()" disabled>Previous</button>
-                <span> Page 1 of 1 </span>
-                <button class="btn btn-secondary" onclick="nextPage()" disabled>Next</button>
+            <div>
+                <button id="sort-frequency" class="btn btn-secondary">Frequency Decline</button>
             </div>
         </div>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Order</th>
+                <th>Sequence</th>
+                <th>Frequency</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Assuming 'sequences' is a list of key-value pairs with 'key' being the sequence and 'value' being the frequency -->
+            <tr th:each="sequence, statVar : ${sequences}">
+                <td th:text="${statVar.index + 1}"></td>
+                <td th:text="${sequence.key}"></td>
+                <td th:text="${sequence.value}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-center btn-download">
+            <a id="download-link" style="display:none;"></a>
+            <button type="button" id="download-button" class="btn btn-success" onclick="downloadExcel()">Download Excel</button>
+            <button type="button" id="download-xes-button" class="btn btn-warning">Download XES</button>
+        </div>
+        <div class="pagination-container">
+            <button class="btn btn-secondary" onclick="previousPage()" disabled>Previous</button>
+            <span> Page 1 of 1 </span>
+            <button class="btn btn-secondary" onclick="nextPage()" disabled>Next</button>
+        </div>
     </div>
+</div>
 </body>
 </html>
