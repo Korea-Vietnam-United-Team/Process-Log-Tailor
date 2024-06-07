@@ -98,6 +98,7 @@
                 rows.forEach((row, index) => {
                     row.style.display = (index >= (currentPage - 1) * rowsPerPage && index < currentPage * rowsPerPage) ? '' : 'none';
                 });
+                updateOrderColumn(rowsPerPage, currentPage);
             }
 
             function updatePagination() {
@@ -108,7 +109,7 @@
                 `;
             }
 
-            window.previousPage = function () {
+            window.previousPage = function() {
                 if (currentPage > 1) {
                     currentPage--;
                     displayRows();
@@ -116,7 +117,7 @@
                 }
             };
 
-            window.nextPage = function () {
+            window.nextPage = function() {
                 if (currentPage < totalPages) {
                     currentPage++;
                     displayRows();
@@ -162,8 +163,8 @@
                     const aFreq = parseInt(a.cells[columnIndex].textContent.trim());
                     const bFreq = parseInt(b.cells[columnIndex].textContent.trim());
                     if (aFreq === bFreq) {
-                        const aSeq = a.cells[0].textContent.trim();
-                        const bSeq = b.cells[0].textContent.trim();
+                        const aSeq = a.cells[1].textContent.trim();
+                        const bSeq = b.cells[1].textContent.trim();
                         return isAscending ? aSeq.localeCompare(bSeq) : bSeq.localeCompare(aSeq);
                     }
                     return isAscending ? aFreq - bFreq : bFreq - aFreq;
@@ -174,18 +175,26 @@
             changeRowsPerPage(document.getElementById('rows-per-page').value); // Repaginate after sorting
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
+        function updateOrderColumn(rowsPerPage, currentPage) {
+            const rows = document.querySelectorAll('.table-container tbody tr');
+            rows.forEach((row, index) => {
+                const orderCell = row.querySelector('td');
+                orderCell.textContent = index + 1; // Reset order number within the current page
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
             const rowsPerPageSelect = document.getElementById('rows-per-page');
             if (rowsPerPageSelect) {
-                rowsPerPageSelect.addEventListener('change', function () {
+                rowsPerPageSelect.addEventListener('change', function() {
                     changeRowsPerPage(this.value);
                 });
             }
 
             const frequencySortButton = document.getElementById('sort-frequency');
             if (frequencySortButton) {
-                frequencySortButton.addEventListener('click', function () {
-                    sortTableByColumn(1, 'frequency');
+                frequencySortButton.addEventListener('click', function() {
+                    sortTableByColumn(2, 'frequency');
                     frequencySortButton.textContent = frequencySortButton.textContent === 'Sort by No.Trace' ? 'Long by No.Trace' : 'Sort by No.Trace';
                 });
             }
@@ -218,13 +227,15 @@
         <table class="table table-striped">
             <thead class="thead-dark">
             <tr>
+                <th>Order</th>
                 <th>Sequence</th>
                 <th>No.Trace</th>
                 <th>Traces</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="entry : ${maxSequences}">
+            <tr th:each="entry, statVar : ${maxSequences}">
+                <td th:text="${statVar.index + 1}"></td>
                 <td th:text="${entry.key}"></td>
                 <td th:text="${entry.value.frequency}"></td>
                 <td>
@@ -237,9 +248,7 @@
         </table>
         <div class="text-center btn-download">
             <a id="download-link" style="display:none;"></a>
-            <button type="button" id="download-button" class="btn btn-success" onclick="downloadExcel()">Download
-                Excel
-            </button>
+            <button type="button" id="download-button" class="btn btn-success" onclick="downloadExcel()">Download Excel</button>
         </div>
         <div class="pagination-container">
             <button class="btn btn-secondary" onclick="previousPage()" disabled>Previous</button>
